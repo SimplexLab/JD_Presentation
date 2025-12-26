@@ -1,0 +1,44 @@
+\begin{tikzpicture}
+\node[] (I) at (-1.5,0) {$\vx$};
+\node[draw=black, align=center] (E) at (0,0) {$\vh(\vx,{\color<3->{color2}\vtheta_0})$};
+\node[] (F) at (1.5,0) {$\vr$};
+\node[draw=black,text width=1.58cm,align=center] (T1) at (3.5,1.5) {$\vg_1(\vr, {\color<2->{color2}\vtheta_1})$};
+\node[] (Td) at (3.5,0.1) {$\vdots$};
+\node[draw=black,text width=1.58cm,align=center] (Tm) at (3.5,-1.5) {$\vg_m(\vr, {\color<2->{color2}\vtheta_m})$};
+\node[] (Z1) at (5.5,1.5) {$\vz_1$};
+\node[] (Zd) at (5.5,0.1) {$\vdots$};
+\node[] (Zm) at (5.5,-1.5) {$\vz_m$};
+\node[] (Y1) at (7.5,2.55) {$\vy_1$};
+\node[] (Ym) at (7.5,-2.55) {$\vy_m$};
+\node[draw,text width=1.78cm,align=center] (L1) at (7.5,1.5) {$\ell_1(\vz_1, \vy_1)$};
+\node[] (Ld) at (7.5,0.1) {$\vdots$};
+\node[draw,text width=1.78cm,align=center] (Lm) at (7.5,-1.5) {$\ell_m(\vz_m, \vy_m)$};
+
+\path [->] (I) edge node[] {} (E);
+
+\path [->] (E) edge node[] {} (F);
+\only<3->{
+\node[color2] (J) at (0,1) {$\A(\jac_{\vtheta_0} \vell)$};
+\path [->, color2] (J) edge node[] {} (E);
+}
+
+\path [-] (F) edge node[] {} (2,1.5);
+\path [-] (F) edge node[] {} (2,-1.5);
+\path [->] (2,1.5) edge node[] {} (T1);
+\path [->] (2,-1.5) edge node[] {} (Tm);
+
+\path [->] (Y1) edge node[] {} (L1);
+\path [->] (Ym) edge node[] {} (Lm);
+
+\path [->] (T1) edge node[] {} (Z1);
+\path [->] (Tm) edge node[] {} (Zm);
+\path [->] (Z1) edge node[] {} (L1);
+\path [->] (Zm) edge node[] {} (Lm);
+
+\only<2->{
+\node[color2] (G1) at (3.5,2.5) {$\grad_{\vtheta_1} \ell_1$};
+\node[color2] (Gm) at (3.5,-2.5) {$\grad_{\vtheta_m} \ell_m$};
+\path [->, color2] (G1) edge node[] {} (T1);
+\path [->, color2] (Gm) edge node[] {} (Tm);
+}
+\end{tikzpicture}

@@ -1,0 +1,222 @@
+\documentclass{beamer}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{symbols}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{tabularray}
+\usepackage{makecell}
+\usepackage{tikz}
+\usepackage{lmodern}
+\usepackage[ruled,vlined,noend]{algorithm2e}
+\usepackage{pgfpages}
+
+\hypersetup{colorlinks,linkcolor=,urlcolor=blue}
+\usecolortheme{beaver}
+\setbeamercolor{itemize item}{fg=red}
+\setbeamercolor{itemize subitem}{fg=red}
+\setbeamercovered{transparent}
+\setlength{\parskip}{3.5ex}
+\setbeamertemplate{footline}[frame number]
+\beamertemplatenavigationsymbolsempty
+
+\title{Jacobian Descent For Multi-Objective Optimization}
+
+\author{%
+  Val\'erian Rey --- Simplex Lab \texorpdfstring{\\}
+  \texttt{valerian.rey@gmail.com} \texorpdfstring{\\}
+  Joint work with Pierre Quinton
+}
+
+\begin{document}
+
+\begin{frame}[plain, noframenumbering]
+\maketitle
+\end{frame}
+
+\begin{frame}[plain, noframenumbering]
+\frametitle{Table of contents}
+\tableofcontents
+\end{frame}
+
+\section{Theory}
+
+\begin{frame}{Multi-objective optimization}
+\uncover<1->{Define the partial order $(\Rm,\preceq)$, for $\vu, \vv\in\Rm$, as
+\begin{align*}
+&&\vu&\pleq \vv&& \\\Leftrightarrow&& u_i&\leq v_i&&\forall i\in\range{m}
+\end{align*}}
+
+\uncover<2->{Let $\vf:\Rn\to\Rm$, the goal of multi-objective optimization is to find a {\bf Pareto optimal} point $\vx^\ast$ of $\vf$.}
+\uncover<3->{\begin{align*}
+\vx^\ast\in X^\ast &&\Leftrightarrow && \forall \vy\in\Rn,~\vf(\vy)\pleq \vf(\vx^\ast)\rightarrow \vf(\vy)=\vf(\vx^\ast)
+\end{align*}}
+\end{frame}
+
+\begin{frame}{Pareto optimality}
+\begin{align*}
+\vx^\ast\in X^\ast &&\Leftrightarrow && \forall \vy\in\Rn,~\vf(\vy)\pleq \vf(\vx^\ast)\rightarrow \vf(\vy)=\vf(\vx^\ast)
+\end{align*}
+
+\begin{tblr}{
+  colspec = {lX[c,h]}
+}
+\makecell{\uncover<2->{Pareto set: $X^\ast$}\\\uncover<3->{Pareto Front: $\vf(X^\ast)$}}&
+\includegraphics[width=5cm]{images/pareto_front}
+\end{tblr}
+\end{frame}
+
+\begin{frame}{First-order Taylor approximation}
+\uncover<1->{
+For any $\vx\in\Rn$, the Jacobian of $\vf$ at $\vx$, is
+\begin{align*}
+  \jac \vf(\vx)= 
+  \begin{bmatrix}
+    \nabla f_1(\vx)^\T\\
+    \nabla f_2(\vx)^\T\\
+    \vdots\\
+    \nabla f_m(\vx)^\T
+  \end{bmatrix}
+  = 
+  \begin{bmatrix}
+    \frac{\partial}{\partial x_1} f_1(\vx)&\frac{\partial}{\partial x_2} f_1(\vx)&\cdots&\frac{\partial}{\partial x_n} f_1(\vx)\\
+    \frac{\partial}{\partial x_1} f_2(\vx)&\frac{\partial}{\partial x_2} f_2(\vx)&\cdots&\frac{\partial}{\partial x_n} f_2(\vx)\\
+    \vdots&\vdots&\ddots&\vdots\\
+    \frac{\partial}{\partial x_1} f_m(\vx)&\frac{\partial}{\partial x_2} f_m(\vx)&\cdots&\frac{\partial}{\partial x_n} f_m(\vx)\\
+  \end{bmatrix}
+\end{align*}
+}
+
+\uncover<2->{
+For a small enough update $\vy\in\Rn$, Taylor Theorem states
+\begin{align*}
+\vf(\vx+\vy)\approx\vf(\vx)+ {\color<3->{color1}\jac \vf(\vx)}\cdot \vy
+\end{align*}
+}
+
+\uncover<4->{
+We select $\vy=-\eta\A(\jac \vf(\vx))\in\Rn$.
+}
+\end{frame}
+
+\begin{frame}[t]{Jacobian descent}
+\vspace{1cm}
+The mapping $\A:\Rmn\to\Rn$ is called an {\bf aggregator}, it parameterizes {\bf Jacobian descent}:
+
+\vspace{0.5cm}
+\only<2->{
+\begin{algorithm}[H]
+\caption{Jacobian descent with aggregator $\A$}
+\DontPrintSemicolon
+\KwIn{$\vx\in\Rn$, $0<\eta$, $T\in\mathbb N$, $\A:\Rmn\to\Rn$}
+\For{$t \gets 1$ \KwTo $T$}{
+    $\vx\gets \vx - \eta \A(\jac \vf(\vx))$\;
+}
+\KwOut{$\vx$}
+\end{algorithm}}
+\end{frame}
+
+\begin{frame}[t]{Non-conflicting property}
+\vspace{0.5cm}
+Recall:
+\begin{align}
+\vf(\vx+\vy) &\approx \vf(\vx)+\jac\vf(\vx)\cdot\vy\\
+\vy &= -\eta \A (\jac \vf(\vx))
+\end{align}
+\only<1-2>{\uncover<2->{We would want}}\only<3->{Or approximately}
+\begin{align*}
+\only<1-2>{\uncover<2->{\vf(\vx+\vy)\pleq \vf(\vx)}}
+\only<3->{
+&&&\vf(\vx)+\jac\vf(\vx)\cdot\vy\pleq \vf(\vx)\\
+\uncover<4->{\Leftrightarrow&&&-\eta \jac\vf(\vx)\cdot\A(\jac \vf(\vx))\pleq \0}\\
+\uncover<5->{\Leftrightarrow&&&\0\pleq \jac\vf(\vx)\cdot\A(\jac \vf(\vx))}}
+\end{align*}
+
+\only<6->{$\A$ is {\bf non-conflicting} if for all $J\in\Rmn$, $\0\pleq J\cdot\A(J)$.}
+\end{frame}
+
+\section{Unconflicting projection of gradients}
+
+\begin{frame}{Unconflicting projection of gradients (UPGrad)}
+Given $J\in\Rmn$\uncover<2->{, let ${\color{color1}C_J}$ be the cone $\{ \vy\in\Rn : \0\pleq J\vy \}$.
+$\A$ is non-conflicting if for all $J\in\Rmn$, $\A(J)\in {\color{color1}C_J}$.}
+
+\uncover<3->{For any $\vx\in\Rn$, the projection of $\vx$ onto ${\color{color1}C_J}$ is
+\begin{flalign*}
+\proj_J(\vx)=\argmin_{\vy\in {\color{color1}C_J}}\| \vx-\vy\|^2&&
+\end{flalign*}}
+\uncover<4->{
+\begin{flalign*}
+\upgrad(J)=\frac{1}{m}\sum_{i\in\range{m}} \proj_J\left(J^\T \ve_i\right)&&
+\end{flalign*}}
+
+\only<1>{\tikz[remember picture, overlay] {\node[anchor=south east] at (current page.south east) {\includegraphics[width=6cm]{images/dual_cone/grads}};}}
+\only<2>{\tikz[remember picture, overlay] {\node[anchor=south east] at (current page.south east) {\includegraphics[width=6cm]{images/dual_cone/cone}};}}
+\only<3>{\tikz[remember picture, overlay] {\node[anchor=south east] at (current page.south east) {\includegraphics[width=6cm]{images/dual_cone/projection}};}}
+\only<4>{\tikz[remember picture, overlay] {\node[anchor=south east] at (current page.south east) {\includegraphics[width=6cm]{images/dual_cone/direction_upgrad}};}}
+\end{frame}
+
+\begin{frame}{Other aggregators}
+\includegraphics[width=12cm]{images/directions}
+
+\end{frame}
+
+\section{Applications and experimentation}
+
+\begin{frame}{Multi-task learning}
+\centering
+\input{tikz/MTL}
+\end{frame}
+
+\begin{frame}{Instance-wise risk minimization (IWRM)}
+Model parameters: $\vx \in \Rn$.
+
+\uncover<2->{Training set with $m$ instances.}
+
+\uncover<3->{Loss associated with $i$'th instance: $f_i(\vx)$.}
+
+\begin{align*}
+\uncover<4->{&\text{(Empirical risk)} &\bar{f}(\vx) &= \frac{1}{m}\sum_{i\in\range{m}} f_i(\vx)}\\
+\uncover<5->{&\text{(Instance-wise risk)} &\vf(\vx) &= \begin{bmatrix} f_1(\vx) & f_2(\vx) & \cdots & f_m(\vx) \end{bmatrix}^\T}
+\end{align*}
+\end{frame}
+
+\begin{frame}{Stochastic sub-Jacobian descent (SSJD)}
+If $1\ll m$, then $\jac \vf(\vx)$ can be too large to compute.
+
+\uncover<2->{Instead, we can take a random batch $\mathcal I\subseteq [m]$ and minimize $\vf_{\mathcal I}(\vx)=\begin{bmatrix} f_i(\vx) \end{bmatrix}_{i\in\mathcal I}^\T$.}
+
+\uncover<3->{The update is $\vx_{t+1}=\vx_t-\eta \A(\jac \vf_{\mathcal I}(\vx_t))$.}
+\end{frame}
+
+\begin{frame}{Experimental results: IWRM + SSJD}
+\begin{tblr}{
+  colspec = {lX[c,h]X[c,h]}
+}
+&Training Loss&Update Similarity\\
+\makecell{SVHN\\\includegraphics[width=1.9cm]{images/svhn/example}}&\includegraphics[width=4.35cm]{images/svhn/train_losses_1.pdf}&\includegraphics[width=4.35cm]{images/svhn/similarities_1.pdf}\\
+\makecell{CIFAR-10\\\includegraphics[width=1.9cm]{images/cifar10/example}}&\includegraphics[width=4.32cm]{images/cifar10/train_losses_1.pdf}&\includegraphics[width=4.32cm]{images/cifar10/similarities_1.pdf}
+\end{tblr}
+\end{frame}
+
+\begin{frame}{Future directions}
+\uncover<1->{Implement a memory-efficient engine for Jacobian descent.}
+
+\uncover<2->{Determine in which cases it's worth to use Jacobian descent compared to scalarization of the objective and gradient descent.}
+\end{frame}
+
+\begin{frame}[plain, noframenumbering]{Links}
+\begin{tblr}{
+  colspec = {h{2.5cm}l},
+  colsep=2pt
+}
+\includegraphics[width=2.1cm]{images/logos/github} & Repo: \href{https://github.com/TorchJD/torchjd}{github.com/TorchJD/torchjd} \\\\
+\includegraphics[width=2.1cm]{images/logos/torchjd2} & Documentation: \href{https://torchjd.org/}{torchjd.org} \\\\
+\includegraphics[width=2.1cm]{images/logos/arxiv} & Paper: \href{https://arxiv.org/pdf/2406.16232}{arxiv.org/pdf/2406.16232} \\
+\end{tblr}
+\note[item]{Check Github, documentation and paper.}
+\note[item]{Hope you have questions?}
+\end{frame}
+
+\end{document}
