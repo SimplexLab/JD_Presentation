@@ -16,7 +16,7 @@
 \usecolortheme{beaver}
 \setbeamercolor{itemize item}{fg=red}
 \setbeamercolor{itemize subitem}{fg=red}
-\setbeamercovered{transparent}
+\setbeamercovered{invisible}
 \setlength{\parskip}{3.5ex}
 \setbeamertemplate{footline}[frame number]
 \beamertemplatenavigationsymbolsempty
@@ -24,8 +24,8 @@
 \title{Jacobian Descent For Multi-Objective Optimization}
 
 \author{%
-  Val\'erian Rey --- Simplex Lab \texorpdfstring{\\}
-  \texttt{valerian.rey@gmail.com} \texorpdfstring{\\}
+  Val\'erian Rey --- Simplex Lab\texorpdfstring{\\}{ - }%
+  \texorpdfstring{\texttt{valerian.rey@gmail.com}}{valerian.rey@gmail.com}\texorpdfstring{\\}{ - }%
   Joint work with Pierre Quinton
 }
 
@@ -37,11 +37,18 @@
 
 \begin{frame}[plain, noframenumbering]
 \frametitle{Table of contents}
-\tableofcontents
+{\setlength{\parskip}{0pt}
+\tableofcontents}
 \end{frame}
 
 \section{Theory}
 
+\begin{frame}
+\centering
+\Huge Theory
+\end{frame}
+
+\subsection{Multi-objective optimization}
 \begin{frame}{Multi-objective optimization}
 \uncover<1->{Define the partial order $(\Rm,\preceq)$, for $\vu, \vv\in\Rm$, as
 \begin{align*}
@@ -54,6 +61,7 @@
 \end{align*}}
 \end{frame}
 
+\subsection{Pareto optimality}
 \begin{frame}{Pareto optimality}
 \begin{align*}
 \vx^\ast\in X^\ast &&\Leftrightarrow && \forall \vy\in\Rn,~\vf(\vy)\pleq \vf(\vx^\ast)\rightarrow \vf(\vy)=\vf(\vx^\ast)
@@ -67,11 +75,12 @@
 \end{tblr}
 \end{frame}
 
+\subsection{First-order Taylor approximation}
 \begin{frame}{First-order Taylor approximation}
 \uncover<1->{
 For any $\vx\in\Rn$, the Jacobian of $\vf$ at $\vx$, is
 \begin{align*}
-  \jac \vf(\vx)= 
+  {\color{blue!70!black}\jac \vf(\vx)}= 
   \begin{bmatrix}
     \nabla f_1(\vx)^\T\\
     \nabla f_2(\vx)^\T\\
@@ -91,15 +100,16 @@ For any $\vx\in\Rn$, the Jacobian of $\vf$ at $\vx$, is
 \uncover<2->{
 For a small enough update $\vy\in\Rn$, Taylor Theorem states
 \begin{align*}
-\vf(\vx+\vy)\approx\vf(\vx)+ {\color<3->{color1}\jac \vf(\vx)}\cdot \vy
+\vf(\vx+\vy)\approx\vf(\vx)+ {\color{blue!70!black}\jac \vf(\vx)}\cdot \vy
 \end{align*}
 }
 
 \uncover<4->{
-We select $\vy=-\eta\A(\jac \vf(\vx))\in\Rn$.
+We select $\vy=-\eta\A({\color{blue!70!black}\jac \vf(\vx)})\in\Rn$.
 }
 \end{frame}
 
+\subsection{Jacobian descent}
 \begin{frame}[t]{Jacobian descent}
 \vspace{1cm}
 The mapping $\A:\Rmn\to\Rn$ is called an {\bf aggregator}, it parameterizes {\bf Jacobian descent}:
@@ -117,6 +127,7 @@ The mapping $\A:\Rmn\to\Rn$ is called an {\bf aggregator}, it parameterizes {\bf
 \end{algorithm}}
 \end{frame}
 
+\subsection{Non-conflicting property}
 \begin{frame}[t]{Non-conflicting property}
 \vspace{0.5cm}
 Recall:
@@ -136,8 +147,7 @@ Recall:
 \only<6->{$\A$ is {\bf non-conflicting} if for all $J\in\Rmn$, $\0\pleq J\cdot\A(J)$.}
 \end{frame}
 
-\section{Unconflicting projection of gradients}
-
+\subsection{Unconflicting projection of gradients (UPGrad)}
 \begin{frame}{Unconflicting projection of gradients (UPGrad)}
 Given $J\in\Rmn$\uncover<2->{, let ${\color{color1}C_J}$ be the cone $\{ \vy\in\Rn : \0\pleq J\vy \}$.
 $\A$ is non-conflicting if for all $J\in\Rmn$, $\A(J)\in {\color{color1}C_J}$.}
@@ -157,6 +167,7 @@ $\A$ is non-conflicting if for all $J\in\Rmn$, $\A(J)\in {\color{color1}C_J}$.}
 \only<4>{\tikz[remember picture, overlay] {\node[anchor=south east] at (current page.south east) {\includegraphics[width=6cm]{images/dual_cone/direction_upgrad}};}}
 \end{frame}
 
+\subsection{Other aggregators}
 \begin{frame}{Other aggregators}
 \includegraphics[width=12cm]{images/directions}
 
@@ -164,33 +175,19 @@ $\A$ is non-conflicting if for all $J\in\Rmn$, $\A(J)\in {\color{color1}C_J}$.}
 
 \section{Applications and experimentation}
 
+\begin{frame}
+\centering
+\Huge Applications and experimentation
+\end{frame}
+
+\subsection{Multi-task learning}
 \begin{frame}{Multi-task learning}
 \centering
 \input{tikz/MTL}
 \end{frame}
 
-\begin{frame}{Instance-wise risk minimization (IWRM)}
-Model parameters: $\vx \in \Rn$.
-
-\uncover<2->{Training set with $m$ instances.}
-
-\uncover<3->{Loss associated with $i$'th instance: $f_i(\vx)$.}
-
-\begin{align*}
-\uncover<4->{&\text{(Empirical risk)} &\bar{f}(\vx) &= \frac{1}{m}\sum_{i\in\range{m}} f_i(\vx)}\\
-\uncover<5->{&\text{(Instance-wise risk)} &\vf(\vx) &= \begin{bmatrix} f_1(\vx) & f_2(\vx) & \cdots & f_m(\vx) \end{bmatrix}^\T}
-\end{align*}
-\end{frame}
-
-\begin{frame}{Stochastic sub-Jacobian descent (SSJD)}
-If $1\ll m$, then $\jac \vf(\vx)$ can be too large to compute.
-
-\uncover<2->{Instead, we can take a random batch $\mathcal I\subseteq [m]$ and minimize $\vf_{\mathcal I}(\vx)=\begin{bmatrix} f_i(\vx) \end{bmatrix}_{i\in\mathcal I}^\T$.}
-
-\uncover<3->{The update is $\vx_{t+1}=\vx_t-\eta \A(\jac \vf_{\mathcal I}(\vx_t))$.}
-\end{frame}
-
-\begin{frame}{Experimental results: IWRM + SSJD}
+\subsection{Experimental results: per-sample JD}
+\begin{frame}{Experimental results: per-sample JD}
 \begin{tblr}{
   colspec = {lX[c,h]X[c,h]}
 }
@@ -200,10 +197,32 @@ If $1\ll m$, then $\jac \vf(\vx)$ can be too large to compute.
 \end{tblr}
 \end{frame}
 
+\subsection{Future directions}
 \begin{frame}{Future directions}
-\uncover<1->{Implement a memory-efficient engine for Jacobian descent.}
 
-\uncover<2->{Determine in which cases it's worth to use Jacobian descent compared to scalarization of the objective and gradient descent.}
+{\bf Implementation}
+
+\begin{itemize}
+  \item<1-> Make the autogram engine faster.
+  % Improve autogram engine.
+  % If possible, use Sparse Latticed Tensors.
+  \item<2-> Make a better implementation of UPGrad.
+  % Make it more precise. Make it work on CUDA directly.
+  % Make blazing fast even with 64 or 128 losses.
+  \item<3-> Improve the interface of TorchJD (\texttt{torchjd.autojac.jac})
+  % Add torchjd.autojac.jac
+  % Add torchjd.autogram.gram
+  % Add torchjd.autogram.backward
+\end{itemize}
+
+\uncover<4->{{\bf Applications}}
+
+\begin{itemize}
+  \item<4-> Per-sample optimization of diffusion models.
+  \item<5-> Per-depth optimization of recurrent models.
+  \item<6-> Find new appliations.
+\end{itemize}
+
 \end{frame}
 
 \begin{frame}[plain, noframenumbering]{Links}
