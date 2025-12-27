@@ -198,7 +198,19 @@ $\A$ is non-conflicting if for all $J\in\Rmn$, $\A(J)\in {\color{color1}C_J}$.}
 \subsection{Other aggregators}
 \begin{frame}{Other aggregators}
 \includegraphics[width=12cm]{images/directions}
+\end{frame}
 
+\subsection{Gramian-based JD}
+\begin{frame}{Gramian-based JD}
+  \uncover<1->{Most aggregators just reweight the rows of $\jac\vf(\vx)$.}
+
+  \uncover<2->{The weights only depend on the Gramian $\gram\vf(\vx) = \jac\vf(\vx) \cdot \jac\vf(\vx)^\T$.}
+
+  \uncover<3->{We can compute $\gram\vf(\vx)$ directly, extract the weights, combine the losses, and do a step of gradient descent.}
+
+  \uncover<4->{We have developed the \textbf{\texttt{autogram}} engine to compute $\gram\vf(\vx)$ efficiently.}
+
+  \uncover<5->{This saves a lot of memory, so it's often much faster.}
 \end{frame}
 
 \section{Applications and experimentation}
@@ -242,10 +254,10 @@ Some convex quadratic function $\vf : \R^2 \to \R^2$, with highly conflicting gr
 {\bf Implementation}
 
 \begin{itemize}
-  \item<1-> Make the autogram engine faster.
+  \item<1-> Make the \textbf{\texttt{autogram}} engine faster.
   % Improve autogram engine.
   % If possible, use Sparse Latticed Tensors.
-  \item<2-> Make a better implementation of UPGrad.
+  \item<2-> Make a better implementation of $\upgrad$.
   % Make it more precise. Make it work on CUDA directly.
   % Make blazing fast even with 64 or 128 losses.
   \item<3-> Improve the interface of TorchJD.
