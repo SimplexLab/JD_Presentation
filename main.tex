@@ -33,11 +33,39 @@
 
 \begin{frame}[plain, noframenumbering]
 \maketitle
+\tikz[remember picture, overlay] {
+  % Left: GitHub
+  \node[anchor=south west, inner sep=0pt] at ([xshift=0.5cm, yshift=0.5cm]current page.south west) {
+    \begin{minipage}{4cm}
+      \raggedright
+      \includegraphics[width=1.4cm]{images/logos/github}\\
+      \href{https://github.com/TorchJD/torchjd}{\small github.com/TorchJD/torchjd}
+    \end{minipage}
+  };
+  % Center: Documentation
+  \node[anchor=south, inner sep=0pt] at ([yshift=0.5cm]current page.south) {
+    \begin{minipage}{4cm}
+      \centering
+      \includegraphics[width=2.1cm]{images/logos/torchjd2}\\
+      \href{https://torchjd.org/}{\small torchjd.org}
+    \end{minipage}
+  };
+  % Right: ArXiv
+  \node[anchor=south east, inner sep=0pt] at ([xshift=-0.5cm, yshift=0.5cm]current page.south east) {
+    \begin{minipage}{4cm}
+      \raggedleft
+      \includegraphics[width=1.4cm]{images/logos/arxiv}\\
+      \href{https://arxiv.org/pdf/2406.16232}{\small arxiv.org/pdf/2406.16232}
+    \end{minipage}
+  };
+}
 \end{frame}
 
 \begin{frame}[plain, noframenumbering]
 \frametitle{Table of contents}
 {\setlength{\parskip}{0pt}
+\setbeamertemplate{section in toc}{~\textbf{\inserttocsection}}
+\setbeamertemplate{subsection in toc}{\hspace{0.4cm}~\inserttocsubsection\par}
 \tableofcontents}
 \end{frame}
 
@@ -220,7 +248,7 @@ Some convex quadratic function $\vf : \R^2 \to \R^2$, with highly conflicting gr
   \item<2-> Make a better implementation of UPGrad.
   % Make it more precise. Make it work on CUDA directly.
   % Make blazing fast even with 64 or 128 losses.
-  \item<3-> Improve the interface of TorchJD (\texttt{torchjd.autojac.jac})
+  \item<3-> Improve the interface of TorchJD.
   % Add torchjd.autojac.jac
   % Add torchjd.autogram.gram
   % Add torchjd.autogram.backward
@@ -235,19 +263,6 @@ Some convex quadratic function $\vf : \R^2 \to \R^2$, with highly conflicting gr
   \item<6-> Find new appliations.
 \end{itemize}
 
-\end{frame}
-
-\begin{frame}[plain, noframenumbering]{Links}
-\begin{tblr}{
-  colspec = {h{2.5cm}l},
-  colsep=2pt
-}
-\includegraphics[width=2.1cm]{images/logos/github} & Repo: \href{https://github.com/TorchJD/torchjd}{github.com/TorchJD/torchjd} \\\\
-\includegraphics[width=2.1cm]{images/logos/torchjd2} & Documentation: \href{https://torchjd.org/}{torchjd.org} \\\\
-\includegraphics[width=2.1cm]{images/logos/arxiv} & Paper: \href{https://arxiv.org/pdf/2406.16232}{arxiv.org/pdf/2406.16232} \\
-\end{tblr}
-\note[item]{Check Github, documentation and paper.}
-\note[item]{Hope you have questions?}
 \end{frame}
 
 \end{document}
