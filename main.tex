@@ -132,7 +132,7 @@ For a small enough update $\vy\in\Rn$, Taylor's theorem states
 \end{align*}
 }
 
-\uncover<4->{
+\uncover<3->{
 We select $\vy=-\eta\A({\color{blue!70!black}\jac \vf(\vx)})\in\Rn$.
 }
 \end{frame}
@@ -204,7 +204,7 @@ $\A$ is non-conflicting if for all $J\in\Rmn$, $\A(J)\in {\color{color1}C_J}$.}
 \begin{frame}{Gramian-based JD}
   \uncover<1->{Most aggregators just reweight the rows of $\jac\vf(\vx)$.}
 
-  \uncover<2->{The weights only depend on the Gramian $\gram\vf(\vx) = \jac\vf(\vx) \cdot \jac\vf(\vx)^\T$.}
+  \uncover<2->{The weights only depend on the (small) Gramian $\gram\vf(\vx) = \jac\vf(\vx) \cdot \jac\vf(\vx)^\T$.}
 
   \uncover<3->{We can compute $\gram\vf(\vx)$ directly, extract the weights, combine the losses, and do a step of gradient descent.}
 
@@ -275,8 +275,8 @@ Each element of the batch has its own loss.
 
 \begin{itemize}
   \item<5-> Are there multi-task learning problems with actual conflict?
-  \item<6-> Does JD (per-sample) help training diffusion models?
-  \item<7-> Does JD (per-depth) help training recurrent models?
+  \item<6-> Could JD (per-sample) help training diffusion models?
+  \item<7-> Could JD (per-depth) help training recurrent models?
   \item<8-> Find new applications.
 \end{itemize}
 
