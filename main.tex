@@ -126,7 +126,7 @@ For any $\vx\in\Rn$, the Jacobian of $\vf$ at $\vx$, is
 }
 
 \uncover<2->{
-For a small enough update $\vy\in\Rn$, Taylor Theorem states
+For a small enough update $\vy\in\Rn$, Taylor's theorem states
 \begin{align*}
 \vf(\vx+\vy)\approx\vf(\vx)+ {\color{blue!70!black}\jac \vf(\vx)}\cdot \vy
 \end{align*}
@@ -155,25 +155,25 @@ The mapping $\A:\Rmn\to\Rn$ is called an {\bf aggregator}, it parameterizes {\bf
 \end{algorithm}}
 \end{frame}
 
-\subsection{Non-conflicting property}
-\begin{frame}[t]{Non-conflicting property}
-\vspace{0.5cm}
-Recall:
-\begin{align}
-\vf(\vx+\vy) &\approx \vf(\vx)+\jac\vf(\vx)\cdot\vy\\
-\vy &= -\eta \A (\jac \vf(\vx))
-\end{align}
-\only<1-2>{\uncover<2->{We would want}}\only<3->{Or approximately}
-\begin{align*}
-\only<1-2>{\uncover<2->{\vf(\vx+\vy)\pleq \vf(\vx)}}
-\only<3->{
-&&&\vf(\vx)+\jac\vf(\vx)\cdot\vy\pleq \vf(\vx)\\
-\uncover<4->{\Leftrightarrow&&&-\eta \jac\vf(\vx)\cdot\A(\jac \vf(\vx))\pleq \0}\\
-\uncover<5->{\Leftrightarrow&&&\0\pleq \jac\vf(\vx)\cdot\A(\jac \vf(\vx))}}
-\end{align*}
+% \subsection{Non-conflicting property}
+% \begin{frame}[t]{Non-conflicting property}
+% \vspace{0.5cm}
+% Recall:
+% \begin{align}
+% \vf(\vx+\vy) &\approx \vf(\vx)+\jac\vf(\vx)\cdot\vy\\
+% \vy &= -\eta \A (\jac \vf(\vx))
+% \end{align}
+% \only<1-2>{\uncover<2->{We would want}}\only<3->{Or approximately}
+% \begin{align*}
+% \only<1-2>{\uncover<2->{\vf(\vx+\vy)\pleq \vf(\vx)}}
+% \only<3->{
+% &&&\vf(\vx)+\jac\vf(\vx)\cdot\vy\pleq \vf(\vx)\\
+% \uncover<4->{\Leftrightarrow&&&-\eta \jac\vf(\vx)\cdot\A(\jac \vf(\vx))\pleq \0}\\
+% \uncover<5->{\Leftrightarrow&&&\0\pleq \jac\vf(\vx)\cdot\A(\jac \vf(\vx))}}
+% \end{align*}
 
-\only<6->{$\A$ is {\bf non-conflicting} if for all $J\in\Rmn$, $\0\pleq J\cdot\A(J)$.}
-\end{frame}
+% \only<6->{$\A$ is {\bf non-conflicting} if for all $J\in\Rmn$, $\0\pleq J\cdot\A(J)$.}
+% \end{frame}
 
 \subsection{Unconflicting projection of gradients (UPGrad)}
 \begin{frame}{Unconflicting projection of gradients (UPGrad)}
@@ -239,40 +239,45 @@ Some convex quadratic function $\vf : \R^2 \to \R^2$, with highly conflicting gr
 
 \subsection{Experimental results: per-sample JD}
 \begin{frame}{Experimental results: per-sample JD}
+
+
+Each element of the batch has its own loss.
+
+\uncover<2->{
 \begin{tblr}{
   colspec = {lX[c,h]X[c,h]}
 }
 &Training Loss&Update Similarity\\
-\makecell{SVHN\\\includegraphics[width=1.9cm]{images/svhn/example}}&\includegraphics[width=4.35cm]{images/svhn/train_losses_1.pdf}&\includegraphics[width=4.35cm]{images/svhn/similarities_1.pdf}\\
+% \makecell{SVHN\\\includegraphics[width=1.9cm]{images/svhn/example}}&\includegraphics[width=4.35cm]{images/svhn/train_losses_1.pdf}&\includegraphics[width=4.35cm]{images/svhn/similarities_1.pdf}\\
 \makecell{CIFAR-10\\\includegraphics[width=1.9cm]{images/cifar10/example}}&\includegraphics[width=4.32cm]{images/cifar10/train_losses_1.pdf}&\includegraphics[width=4.32cm]{images/cifar10/similarities_1.pdf}
-\end{tblr}
+\end{tblr}}
 \end{frame}
 
 \subsection{Future directions}
 \begin{frame}{Future directions}
 
-{\bf Implementation}
+\uncover<2->{{\bf Implementation}}
 
 \begin{itemize}
-  \item<1-> Make the \textbf{\texttt{autogram}} engine faster.
+  \item<2-> Make the \textbf{\texttt{autogram}} engine faster.
   % Improve autogram engine.
   % If possible, use Sparse Latticed Tensors.
-  \item<2-> Make a better implementation of $\upgrad$.
+  \item<3-> Make a better implementation of $\upgrad$.
   % Make it more precise. Make it work on CUDA directly.
   % Make blazing fast even with 64 or 128 losses.
-  \item<3-> Improve the interface of TorchJD.
+  \item<4-> Improve the interface of TorchJD.
   % Add torchjd.autojac.jac
   % Add torchjd.autogram.gram
   % Add torchjd.autogram.backward
 \end{itemize}
 
-\uncover<4->{{\bf Applications}}
+\uncover<5->{{\bf Applications}}
 
 \begin{itemize}
-  \item<4-> Are there multi-task learning problems with actual conflict?
-  \item<4-> Does JD (per-sample) help training diffusion models?
-  \item<5-> Does JD (per-depth) help training recurrent models?
-  \item<6-> Find new appliations.
+  \item<5-> Are there multi-task learning problems with actual conflict?
+  \item<6-> Does JD (per-sample) help training diffusion models?
+  \item<7-> Does JD (per-depth) help training recurrent models?
+  \item<8-> Find new applications.
 \end{itemize}
 
 \end{frame}
