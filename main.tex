@@ -108,19 +108,19 @@
 \uncover<1->{
 For any $\vx\in\Rn$, the Jacobian of $\vf$ at $\vx$, is
 \begin{align*}
-  {\color{blue!70!black}\jac \vf(\vx)}= 
+  \jac \vf(\vx)= 
   \begin{bmatrix}
-    \nabla f_1(\vx)^\T\\
-    \nabla f_2(\vx)^\T\\
+    \textcolor[HTML]{FF0000}{\nabla f_1(\vx)^\T}\\
+    \textcolor[HTML]{0000FF}{\nabla f_2(\vx)^\T}\\
     \vdots\\
-    \nabla f_m(\vx)^\T
+    \textcolor[HTML]{008000}{\nabla f_m(\vx)^\T}
   \end{bmatrix}
   = 
   \begin{bmatrix}
-    \frac{\partial}{\partial x_1} f_1(\vx)&\frac{\partial}{\partial x_2} f_1(\vx)&\cdots&\frac{\partial}{\partial x_n} f_1(\vx)\\
-    \frac{\partial}{\partial x_1} f_2(\vx)&\frac{\partial}{\partial x_2} f_2(\vx)&\cdots&\frac{\partial}{\partial x_n} f_2(\vx)\\
+    \textcolor[HTML]{FF0000}{\frac{\partial}{\partial x_1} f_1(\vx)}&\textcolor[HTML]{FF0000}{\frac{\partial}{\partial x_2} f_1(\vx)}&\textcolor[HTML]{FF0000}{\cdots}&\textcolor[HTML]{FF0000}{\frac{\partial}{\partial x_n} f_1(\vx)}\\
+    \textcolor[HTML]{0000FF}{\frac{\partial}{\partial x_1} f_2(\vx)}&\textcolor[HTML]{0000FF}{\frac{\partial}{\partial x_2} f_2(\vx)}&\textcolor[HTML]{0000FF}{\cdots}&\textcolor[HTML]{0000FF}{\frac{\partial}{\partial x_n} f_2(\vx)}\\
     \vdots&\vdots&\ddots&\vdots\\
-    \frac{\partial}{\partial x_1} f_m(\vx)&\frac{\partial}{\partial x_2} f_m(\vx)&\cdots&\frac{\partial}{\partial x_n} f_m(\vx)\\
+    \textcolor[HTML]{008000}{\frac{\partial}{\partial x_1} f_m(\vx)}&\textcolor[HTML]{008000}{\frac{\partial}{\partial x_2} f_m(\vx)}&\textcolor[HTML]{008000}{\cdots}&\textcolor[HTML]{008000}{\frac{\partial}{\partial x_n} f_m(\vx)}\\
   \end{bmatrix}
 \end{align*}
 }
@@ -128,12 +128,12 @@ For any $\vx\in\Rn$, the Jacobian of $\vf$ at $\vx$, is
 \uncover<2->{
 For a small enough update $\vy\in\Rn$, Taylor's theorem states
 \begin{align*}
-\vf(\vx+\vy)\approx\vf(\vx)+ {\color{blue!70!black}\jac \vf(\vx)}\cdot \vy
+\vf(\vx+\vy)\approx\vf(\vx)+ \jac \vf(\vx)\cdot \vy
 \end{align*}
 }
 
 \uncover<3->{
-We select $\vy=-\eta\A({\color{blue!70!black}\jac \vf(\vx)})\in\Rn$.
+We select $\vy=-\eta\A(\jac \vf(\vx))\in\Rn$.
 }
 \end{frame}
 
