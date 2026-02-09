@@ -223,17 +223,6 @@ For any $\vx\in\Rn$, the projection of $\vx$ onto ${\color{color1}C_J}$ is
 \Huge Applications and experimentation
 \end{frame}
 
-\subsection{Synthetic examples}
-\begin{frame}{Synthetic example: element-wise quadratic function}
-Minimize $\vf : \begin{bmatrix}x \\ y\end{bmatrix} \mapsto \begin{bmatrix}x^2 \\ y^2\end{bmatrix}$. It's Jacobian at $\begin{bmatrix}x \\ y\end{bmatrix}$ is $\begin{bmatrix} 2x & 0 \\ 0 & 2y \end{bmatrix}$.
-\includegraphics[width=10.5cm]{images/EWQ_values.pdf}
-\end{frame}
-
-\begin{frame}{Synthetic example: convex quadratic form}
-Some convex quadratic function $\vf : \R^2 \to \R^2$, with highly conflicting gradients.
-\includegraphics[width=10.5cm]{images/CQF_values.pdf}
-\end{frame}
-
 \subsection{Multi-task learning}
 \begin{frame}{Multi-task learning}
 \centering
@@ -283,6 +272,16 @@ Each element of the batch has its own loss.
   \item<8-> Find new applications.
 \end{itemize}
 
+\end{frame}
+
+\begin{frame}{Bonus: Element-wise quadratic function trajectories}
+Minimize $\vf : \begin{bmatrix}x \\ y\end{bmatrix} \mapsto \begin{bmatrix}x^2 \\ y^2\end{bmatrix}$. It's Jacobian at $\begin{bmatrix}x \\ y\end{bmatrix}$ is $\begin{bmatrix} 2x & 0 \\ 0 & 2y \end{bmatrix}$.
+\includegraphics[width=10.5cm]{images/EWQ_values.pdf}
+\end{frame}
+
+\begin{frame}{Bonus: Convex quadratic form trajectories}
+Some convex quadratic function $\vf : \R^2 \to \R^2$, with highly conflicting gradients.
+\includegraphics[width=10.5cm]{images/CQF_values.pdf}
 \end{frame}
 
 \begin{frame}{Bonus: Gramian-based JD}
