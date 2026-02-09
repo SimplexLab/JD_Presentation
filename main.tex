@@ -218,7 +218,7 @@ For any $\vx\in\Rn$, the projection of $\vx$ onto ${\color{color1}C_J}$ is
 
 \subsection{Gramian-based JD}
 \begin{frame}{Gramian-based JD}
-  \uncover<1->{Most aggregators just reweight the rows of $\jac\vf(\vx)$.}
+  \uncover<1->{$\upgrad(\jac\vf(\vx))$ is a linear combination of the rows of $\jac\vf(\vx)$.}
 
   \uncover<2->{The weights only depend on the (small) Gramian $\gram\vf(\vx) = \jac\vf(\vx) \cdot \jac\vf(\vx)^\T$.}
 
@@ -227,6 +227,8 @@ For any $\vx\in\Rn$, the projection of $\vx$ onto ${\color{color1}C_J}$ is
   \uncover<4->{We have developed the \textbf{\texttt{autogram}} engine to compute $\gram\vf(\vx)$ efficiently.}
 
   \uncover<5->{This saves a lot of memory, so it's often much faster.}
+
+  \uncover<6->{Applicable to most other aggregators from the literature.}
 \end{frame}
 
 \section{Applications and experimentation}
