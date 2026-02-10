@@ -317,7 +317,7 @@ for x, y1, y2 in dataloader:
   loss2 = loss_fn(y_pred2, y2)
   autojac.mtl_backward([loss1, loss2], features)
   # backbone parameters now have a .jac field
-  # and heads have a .grad field
+  # and head parameters have a .grad field
   autojac.jac_to_grad(backbone.params(), UPGrad())
   # All parameters now have a .grad field
   optimizer.step()
@@ -326,9 +326,21 @@ for x, y1, y2 in dataloader:
 Full code example available at \href{https://torchjd.org/latest/examples/mtl/}{torchjd.org/latest/examples/mtl}.
 \end{frame}
 
-\subsection{Conclusion}
+\section{Conclusion}
 \begin{frame}{Conclusion}
+Many problems are multi-objective.
+\pause
+
+Dual cone is rarely empty in deep learning.
+\pause
+
+TorchJD to compute and aggregate Jacobians.
+\pause
+
+Try to compute the inner products between your gradients.
 \end{frame}
+
+
 
 % \subsection{Future directions}
 % \begin{frame}{Future directions}
@@ -369,13 +381,13 @@ Some convex quadratic function $\vf : \R^2 \to \R^2$, with conflicting gradients
 \end{frame}
 
 \begin{frame}{Bonus: Gramian-based JD}
-  \uncover<1->{$\upgrad(\jac\vf(\vx))$ is a linear combination of the rows of $\jac\vf(\vx)$.}
+  \uncover<1->{$\upgrad\big(\jac\vf(\vx)\big)$ is a linear combination of the rows of $\jac\vf(\vx)$.}
 
   \uncover<2->{The weights only depend on the (small) Gramian $\gram\vf(\vx) = \jac\vf(\vx) \cdot \jac\vf(\vx)^\T$.}
 
   \uncover<3->{We can compute $\gram\vf(\vx)$ directly, extract the weights, combine the losses, and do a step of gradient descent.}
 
-  \uncover<4->{We have developed the \textbf{\texttt{autogram}} engine to compute $\gram\vf(\vx)$ efficiently.}
+  \uncover<4->{We have developed the \textbf{\texttt{autogram}} engine to compute $\gram\vf(\vx)$ efficiently (work in progress).}
 
   \uncover<5->{This saves a lot of memory, so it's often much faster.}
 
