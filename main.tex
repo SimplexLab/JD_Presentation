@@ -263,37 +263,6 @@ for i in range(n_iters):
 Full project available at \href{https://github.com/TorchJD/trajectories}{github.com/TorchJD/trajectories}
 \end{frame}
 
-\subsection{Multi-task learning}
-\begin{frame}{Multi-task learning}
-\centering
-\input{tikz/MTL}
-\end{frame}
-
-\begin{frame}[fragile]{Multi-task learning: code}
-\vspace{0.5cm}
-\begin{lstlisting}[style=pythonstyle]
-backbone = Linear(10, 5)
-head1 = Linear(5, 1)
-head2 = Linear(5, 1)
-
-for x, y1, y2 in dataloader:
-  features = backbone(x)
-  y_pred1 = head1(features)
-  y_pred2 = head2(features)
-  loss1 = loss_fn(y_pred1, y1)
-  loss2 = loss_fn(y_pred2, y2)
-  autojac.mtl_backward([loss1, loss2], features)
-  # backbone parameters now have a .jac field
-  # and heads have a .grad field
-  autojac.jac_to_grad(backbone.params(), UPGrad())
-  # All parameters now have a .grad field
-  optimizer.step()
-  optimizer.zero_grad()
-\end{lstlisting}
-Full code example available at \href{https://torchjd.org/latest/examples/mtl/}{torchjd.org/latest/examples/mtl}.
-
-\end{frame}
-
 \subsection{Per-sample JD}
 \begin{frame}[fragile]{Per-sample JD}
 
@@ -325,6 +294,36 @@ Full code example available at \href{https://torchjd.org/latest/examples/iwrm/}{
 % \makecell{SVHN\\\includegraphics[width=1.9cm]{images/svhn/example}}&\includegraphics[width=4.35cm]{images/svhn/train_losses_1.pdf}&\includegraphics[width=4.35cm]{images/svhn/similarities_1.pdf}\\
 \makecell{CIFAR-10\\\includegraphics[width=1.9cm]{images/cifar10/example}}&\includegraphics[width=4.32cm]{images/cifar10/train_losses_1.pdf}&\includegraphics[width=4.32cm]{images/cifar10/similarities_1.pdf}
 \end{tblr}
+\end{frame}
+
+\subsection{Multi-task learning}
+\begin{frame}{Multi-task learning}
+\centering
+\input{tikz/MTL}
+\end{frame}
+
+\begin{frame}[fragile]{Multi-task learning: code}
+\vspace{0.5cm}
+\begin{lstlisting}[style=pythonstyle]
+backbone = Linear(10, 5)
+head1 = Linear(5, 1)
+head2 = Linear(5, 1)
+
+for x, y1, y2 in dataloader:
+  features = backbone(x)
+  y_pred1 = head1(features)
+  y_pred2 = head2(features)
+  loss1 = loss_fn(y_pred1, y1)
+  loss2 = loss_fn(y_pred2, y2)
+  autojac.mtl_backward([loss1, loss2], features)
+  # backbone parameters now have a .jac field
+  # and heads have a .grad field
+  autojac.jac_to_grad(backbone.params(), UPGrad())
+  # All parameters now have a .grad field
+  optimizer.step()
+  optimizer.zero_grad()
+\end{lstlisting}
+Full code example available at \href{https://torchjd.org/latest/examples/mtl/}{torchjd.org/latest/examples/mtl}.
 \end{frame}
 
 \subsection{Future directions}
