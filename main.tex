@@ -83,24 +83,25 @@
 &&\vu&\pleq \vv&& \\\Leftrightarrow&& u_i&\leq v_i&&\forall i\in\range{m}
 \end{align*}}
 
-\uncover<2->{Let $\vf:\Rn\to\Rm$, the goal of multi-objective optimization is to find a {\bf Pareto optimal} point $\vx^\ast$ of $\vf$.}
-\uncover<3->{\begin{align*}
-\vx^\ast\in X^\ast &&\Leftrightarrow && \forall \vy\in\Rn,~\vf(\vy)\pleq \vf(\vx^\ast)\rightarrow \vf(\vy)=\vf(\vx^\ast)
-\end{align*}}
+\uncover<2->{Examples:
+\begin{itemize}
+\item<2-> $\begin{bmatrix}2\\1\end{bmatrix} \preceq \begin{bmatrix}2\\2\end{bmatrix}$
+\item<3-> $\begin{bmatrix}2\\1\end{bmatrix}$ and $\begin{bmatrix}1\\2\end{bmatrix}$ are not comparable with this partial order.
+\end{itemize}}
 \end{frame}
 
 \subsection{Pareto optimality}
 \begin{frame}{Pareto optimality}
-\begin{align*}
-\vx^\ast\in X^\ast &&\Leftrightarrow && \forall \vy\in\Rn,~\vf(\vy)\pleq \vf(\vx^\ast)\rightarrow \vf(\vy)=\vf(\vx^\ast)
-\end{align*}
-
 \begin{tblr}{
   colspec = {lX[c,h]}
 }
 \makecell{\uncover<2->{Pareto set: $X^\ast$}\\\uncover<3->{Pareto Front: $\vf(X^\ast)$}}&
 \includegraphics[width=5cm]{images/pareto_front}
 \end{tblr}
+
+\uncover<4->{\begin{align*}
+\vx^\ast\in X^\ast &&\Leftrightarrow && \forall \vy\in\Rn,~\vf(\vy)\pleq \vf(\vx^\ast)\rightarrow \vf(\vy)=\vf(\vx^\ast)
+\end{align*}}
 \end{frame}
 
 \subsection{First-order Taylor approximation}
