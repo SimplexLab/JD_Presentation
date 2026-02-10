@@ -212,7 +212,6 @@ The mapping $\A:\Rmn\to\Rn$ is called an {\bf aggregator}, it parameterizes {\bf
 \only<5>{\tikz[remember picture, overlay] \node[yshift=-0.5cm] at (current page.center) {\includegraphics[width=10cm]{images/dual_cone/gradients_cone_projections_upgrad_mean}};}
 \end{frame}
 
-\subsection{Formal definition of UPGrad}
 \begin{frame}{Formal definition of UPGrad}
 Given $J\in\Rmn$, let ${\color{color1}C_J}$ be the cone $\{ \vy\in\Rn : \0\pleq J\vy \}$.
 $\A$ is non-conflicting if for all $J\in\Rmn$, $\A(J)\in {\color{color1}C_J}$.
@@ -327,34 +326,37 @@ for x, y1, y2 in dataloader:
 Full code example available at \href{https://torchjd.org/latest/examples/mtl/}{torchjd.org/latest/examples/mtl}.
 \end{frame}
 
-\subsection{Future directions}
-\begin{frame}{Future directions}
-
-\uncover<2->{{\bf Implementation}}
-
-\begin{itemize}
-  \item<2-> Make the \textbf{\texttt{autogram}} engine faster.
-  % Improve autogram engine.
-  % If possible, use Sparse Latticed Tensors.
-  \item<3-> Make a better implementation of $\upgrad$.
-  % Make it more precise. Make it work on CUDA directly.
-  % Make blazing fast even with 64 or 128 losses.
-  \item<4-> Improve the interface of TorchJD.
-  % Add torchjd.autojac.jac
-  % Add torchjd.autogram.gram
-  % Add torchjd.autogram.backward
-\end{itemize}
-
-\uncover<5->{{\bf Applications}}
-
-\begin{itemize}
-  \item<5-> Are there multi-task learning problems with actual conflict?
-  \item<6-> Could JD (per-sample) help training diffusion models?
-  \item<7-> Could JD (per-depth) help training recurrent models?
-  \item<8-> Find new applications.
-\end{itemize}
-
+\subsection{Conclusion}
+\begin{frame}{Conclusion}
 \end{frame}
+
+% \subsection{Future directions}
+% \begin{frame}{Future directions}
+
+% \uncover<2->{{\bf Implementation}}
+
+% \begin{itemize}
+%   \item<2-> Make the \textbf{\texttt{autogram}} engine faster.
+%   % Improve autogram engine.
+%   % If possible, use Sparse Latticed Tensors.
+%   \item<3-> Make a better implementation of $\upgrad$.
+%   % Make it more precise. Make it work on CUDA directly.
+%   % Make blazing fast even with 64 or 128 losses.
+%   \item<4-> Improve the interface of TorchJD.
+%   % Add torchjd.autojac.jac
+%   % Add torchjd.autogram.gram
+%   % Add torchjd.autogram.backward
+% \end{itemize}
+
+% \uncover<5->{{\bf Applications}}
+
+% \begin{itemize}
+%   \item<5-> Are there multi-task learning problems with actual conflict?
+%   \item<6-> Could JD (per-sample) help training diffusion models?
+%   \item<7-> Could JD (per-depth) help training recurrent models?
+%   \item<8-> Find new applications.
+% \end{itemize}
+% \end{frame}
 
 \begin{frame}{Bonus: Element-wise quadratic function trajectories}
 Minimize $\vf : \begin{bmatrix}x \\ y\end{bmatrix} \mapsto \begin{bmatrix}x^2 \\ y^2\end{bmatrix}$. It's Jacobian at $\begin{bmatrix}x \\ y\end{bmatrix}$ is $\begin{bmatrix} 2x & 0 \\ 0 & 2y \end{bmatrix}$.
