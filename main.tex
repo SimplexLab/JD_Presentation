@@ -11,6 +11,21 @@
 \usepackage{lmodern}
 \usepackage[ruled,vlined,noend]{algorithm2e}
 \usepackage{pgfpages}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstdefinestyle{pythonstyle}{
+    language=Python,
+    basicstyle=\ttfamily\footnotesize,
+    keywordstyle=\color{blue}\bfseries,
+    commentstyle=\color{green!50!black},
+    stringstyle=\color{red},
+    showstringspaces=false,
+    breaklines=true,
+    numberstyle=\tiny\color{gray},
+    xleftmargin=0.5em,
+    framexleftmargin=0.5em
+}
 
 \hypersetup{colorlinks,linkcolor=,urlcolor=blue}
 \usecolortheme{beaver}
@@ -234,6 +249,29 @@ Some convex quadratic function $\vf : \R^2 \to \R^2$, with conflicting gradients
 \begin{frame}{Multi-task learning}
 \centering
 \input{tikz/MTL}
+\end{frame}
+
+\begin{frame}[fragile]{Multi-task learning: code}
+\begin{lstlisting}[style=pythonstyle]
+backbone = Linear(10, 5)
+head1 = Linear(5, 1)
+head2 = Linear(5, 1)
+
+for x, y1, y2 in dataloader:
+  features = backbone(x)
+  y_pred1 = head1(features)
+  y_pred2 = head2(features)
+  loss1 = loss_fn(y_pred1, y1)
+  loss2 = loss_fn(y_pred2, y2)
+
+  mtl_backward([loss1, loss2], features)
+  jac_to_grad(backbone.parameters(), UPGrad())
+  optimizer.step()
+  optimizer.zero_grad()
+\end{lstlisting}
+
+Full code example available at \href{https://torchjd.org/latest/examples/mtl/}{\small torchjd.org/latest/examples/mtl}.
+
 \end{frame}
 
 \subsection{Experimental results: per-sample JD}
