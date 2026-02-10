@@ -274,20 +274,37 @@ Full code example available at \href{https://torchjd.org/latest/examples/mtl/}{\
 
 \end{frame}
 
-\subsection{Experimental results: per-sample JD}
-\begin{frame}{Experimental results: per-sample JD}
-
+\subsection{Per-sample JD}
+\begin{frame}[fragile]{Per-sample JD}
 
 Each element of the batch has its own loss.
+\begin{onlyenv}<2->
+\begin{lstlisting}[style=pythonstyle]
+batch_size = 16
+model = Linear(10, 1)
 
-\uncover<2->{
+for x, y in dataloader:
+  y_pred = model(x).squeeze(dim=1)  # shape: [16]
+  losses = loss_fn(y_pred, y)  # shape: [16]
+  backward(losses)
+  # parameters now have a .jac field
+  jac_to_grad(model.parameters(), UPGrad())
+  # parameters now have a .grad field
+  optimizer.step()
+  optimizer.zero_grad()
+\end{lstlisting}
+Full code example available at \href{https://torchjd.org/latest/examples/iwrm/}{\small torchjd.org/latest/examples/iwrm}.
+\end{onlyenv}
+\end{frame}
+
+\begin{frame}{Per-sample JD: results}
 \begin{tblr}{
   colspec = {lX[c,h]X[c,h]}
 }
 &Training Loss&Update Similarity\\
 % \makecell{SVHN\\\includegraphics[width=1.9cm]{images/svhn/example}}&\includegraphics[width=4.35cm]{images/svhn/train_losses_1.pdf}&\includegraphics[width=4.35cm]{images/svhn/similarities_1.pdf}\\
 \makecell{CIFAR-10\\\includegraphics[width=1.9cm]{images/cifar10/example}}&\includegraphics[width=4.32cm]{images/cifar10/train_losses_1.pdf}&\includegraphics[width=4.32cm]{images/cifar10/similarities_1.pdf}
-\end{tblr}}
+\end{tblr}
 \end{frame}
 
 \subsection{Future directions}
