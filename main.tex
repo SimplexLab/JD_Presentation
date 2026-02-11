@@ -145,11 +145,12 @@ For any $\vx\in\Rn$, the Jacobian of $\vf$ at $\vx$, is
 \pause
 For a small enough update $\vy\in\Rn$, Taylor's theorem states
 \begin{align*}
-\vf(\vx+\vy)\approx\vf(\vx)+ \jac \vf(\vx)\cdot \vy
+\vf(\vx+\vy)\approx\vf(\vx)+ \jac \vf(\vx)\cdot \vy \visible<4->{\textcolor{gray}{{}\preceq \vf(\vx)}}
 \end{align*}
 
+% \pause
+% We want $\vf(\vx + \vy) \preceq \vf(\vx)$.
 \pause
-We want $\vf(\vx + \vy) \preceq \vf(\vx)$.
 \pause
 We select $\vy=-\eta\A\big(\jac \vf(\vx)\big)\in\Rn$.
 
@@ -255,7 +256,7 @@ Goal: Minimize some convex quadratic function $\vf : \R^2 \to \R^2$, with confli
 from torchjd import autojac
 from torchjd.aggregation import UPGrad
 
-x = tensor([0., 0.])  # initial value of x
+x = tensor([0., 0.], requires_grad=True)
 
 for i in range(n_iters):
   y = f(x)  # shape: [2]
@@ -341,9 +342,6 @@ Full code example available at \href{https://torchjd.org/latest/examples/mtl/}{t
 \section{Conclusion}
 \begin{frame}{Conclusion}
 Many problems are multi-objective.
-\pause
-
-Dual cone is rarely empty in deep learning.
 \pause
 
 TorchJD to compute and aggregate Jacobians.
