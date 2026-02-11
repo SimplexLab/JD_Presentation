@@ -18,7 +18,7 @@
 
 \path [->] (E) edge node[] {} (F);
 \only<3->{
-\node[color2] (J) at (0,1) {$\A(\jac_{\vtheta_0} \vell)$};
+\node[color2] (J) at (0,1) {$-\eta\A(\jac_{\vtheta_0} \vell)$};
 \path [->, color2] (J) edge node[] {} (E);
 }
 
@@ -36,8 +36,8 @@
 \path [->] (Zm) edge node[] {} (Lm);
 
 \only<2->{
-\node[color2] (G1) at (3.5,2.5) {$\grad_{\vtheta_1} \ell_1$};
-\node[color2] (Gm) at (3.5,-2.5) {$\grad_{\vtheta_m} \ell_m$};
+\node[color2] (G1) at (3.5,2.5) {$-\eta\grad_{\vtheta_1} \ell_1$};
+\node[color2] (Gm) at (3.5,-2.5) {$-\eta\grad_{\vtheta_m} \ell_m$};
 \path [->, color2] (G1) edge node[] {} (T1);
 \path [->, color2] (Gm) edge node[] {} (Tm);
 }

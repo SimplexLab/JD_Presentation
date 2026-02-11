@@ -91,8 +91,8 @@
 \Huge Theory
 \end{frame}
 
-\subsection{Multi-objective optimization}
-\begin{frame}{Multi-objective optimization}
+\subsection{Partial order}
+\begin{frame}{Partial order}
 \uncover<1->{Define the partial order $(\Rm,\preceq)$, for $\vu, \vv\in\Rm$, as
 \begin{align*}
 &&\vu&\pleq \vv&& \\\Leftrightarrow&& u_i&\leq v_i&&\forall i\in\range{m}
@@ -119,41 +119,41 @@
 \end{align*}}
 \end{frame}
 
-\subsection{First-order Taylor approximation}
-\begin{frame}{First-order Taylor approximation}
-\uncover<1->{
+\subsection{Jacobian descent}
+\begin{frame}{Jacobian descent}
+Goal: minimize $\vf : \Rn \to \Rm$ according to the $\preceq$ partial order.
+\pause
 For any $\vx\in\Rn$, the Jacobian of $\vf$ at $\vx$, is
 \begin{align*}
-  \jac \vf(\vx)= 
+  \jac \vf(\vx)=
   \begin{bmatrix}
-    \textcolor[HTML]{FF0000}{\nabla f_1(\vx)^\T}\\
-    \textcolor[HTML]{0000FF}{\nabla f_2(\vx)^\T}\\
+    \nabla f_{\textcolor[HTML]{FF0000}{1}}(\vx)^\T\\
+    \nabla f_{\textcolor[HTML]{0000FF}{2}}(\vx)^\T\\
     \vdots\\
-    \textcolor[HTML]{008000}{\nabla f_m(\vx)^\T}
+    \nabla f_{\textcolor[HTML]{00C000}{m}}(\vx)^\T
   \end{bmatrix}
-  = 
+  =
   \begin{bmatrix}
-    \textcolor[HTML]{FF0000}{\frac{\partial}{\partial x_1} f_1(\vx)}&\textcolor[HTML]{FF0000}{\frac{\partial}{\partial x_2} f_1(\vx)}&\textcolor[HTML]{FF0000}{\cdots}&\textcolor[HTML]{FF0000}{\frac{\partial}{\partial x_n} f_1(\vx)}\\
-    \textcolor[HTML]{0000FF}{\frac{\partial}{\partial x_1} f_2(\vx)}&\textcolor[HTML]{0000FF}{\frac{\partial}{\partial x_2} f_2(\vx)}&\textcolor[HTML]{0000FF}{\cdots}&\textcolor[HTML]{0000FF}{\frac{\partial}{\partial x_n} f_2(\vx)}\\
+    \frac{\partial}{\partial x_1} f_{\textcolor[HTML]{FF0000}{1}}(\vx)&\frac{\partial}{\partial x_2} f_{\textcolor[HTML]{FF0000}{1}}(\vx)&\cdots&\frac{\partial}{\partial x_n} f_{\textcolor[HTML]{FF0000}{1}}(\vx)\\
+    \frac{\partial}{\partial x_1} f_{\textcolor[HTML]{0000FF}{2}}(\vx)&\frac{\partial}{\partial x_2} f_{\textcolor[HTML]{0000FF}{2}}(\vx)&\cdots&\frac{\partial}{\partial x_n} f_{\textcolor[HTML]{0000FF}{2}}(\vx)\\
     \vdots&\vdots&\ddots&\vdots\\
-    \textcolor[HTML]{008000}{\frac{\partial}{\partial x_1} f_m(\vx)}&\textcolor[HTML]{008000}{\frac{\partial}{\partial x_2} f_m(\vx)}&\textcolor[HTML]{008000}{\cdots}&\textcolor[HTML]{008000}{\frac{\partial}{\partial x_n} f_m(\vx)}\\
+    \frac{\partial}{\partial x_1} f_{\textcolor[HTML]{00C000}{m}}(\vx)&\frac{\partial}{\partial x_2} f_{\textcolor[HTML]{00C000}{m}}(\vx)&\cdots&\frac{\partial}{\partial x_n} f_{\textcolor[HTML]{00C000}{m}}(\vx)\\
   \end{bmatrix}
 \end{align*}
-}
 
-\uncover<2->{
+\pause
 For a small enough update $\vy\in\Rn$, Taylor's theorem states
 \begin{align*}
 \vf(\vx+\vy)\approx\vf(\vx)+ \jac \vf(\vx)\cdot \vy
 \end{align*}
-}
 
-\uncover<3->{
-We select $\vy=-\eta\A(\jac \vf(\vx))\in\Rn$.
-}
+\pause
+We want $\vf(\vx + \vy) \preceq \vf(\vx)$.
+\pause
+We select $\vy=-\eta\A\big(\jac \vf(\vx)\big)\in\Rn$.
+
 \end{frame}
 
-\subsection{Jacobian descent}
 \begin{frame}[t]{Jacobian descent}
 \vspace{1cm}
 The mapping $\A:\Rmn\to\Rn$ is called an {\bf aggregator}, it parameterizes {\bf Jacobian descent}:
@@ -165,7 +165,7 @@ The mapping $\A:\Rmn\to\Rn$ is called an {\bf aggregator}, it parameterizes {\bf
 \DontPrintSemicolon
 \KwIn{$\vx\in\Rn$, $0<\eta$, $T\in\mathbb N$, $\A:\Rmn\to\Rn$}
 \For{$t \gets 1$ \KwTo $T$}{
-    $\vx\gets \vx - \eta \A(\jac \vf(\vx))$\;
+    $\vx\gets \vx - \eta \A\big(\jac \vf(\vx)\big)$\;
 }
 \KwOut{$\vx$}
 \end{algorithm}}
@@ -240,7 +240,8 @@ For any $\vx\in\Rn$, the projection of $\vx$ onto ${\color{color1}C_J}$ is
 
 \subsection{Optimization trajectories}
 \begin{frame}{Optimization trajectories}
-Some convex quadratic function $\vf : \R^2 \to \R^2$, with conflicting gradients.
+Goal: Minimize some convex quadratic function $\vf : \R^2 \to \R^2$, with conflicting gradients.
+\pause
 \includegraphics[width=10.5cm]{images/CQF_values_simplified.pdf}
 \end{frame}
 
@@ -272,8 +273,8 @@ batch_size = 16
 model = Linear(10, 1)
 
 for x, y in dataloader:
-  y_pred = model(x).squeeze(dim=1)  # shape: [16]
-  losses = loss_fn(y_pred, y)  # shape: [16]
+  z = model(x).squeeze(dim=1)  # shape: [16]
+  losses = loss_fn(z, y)  # shape: [16]
   autojac.backward(losses)
   # parameters now have a .jac field
   autojac.jac_to_grad(model.parameters(), UPGrad())
@@ -305,17 +306,17 @@ Batch size: 32
 \begin{frame}[fragile]{Multi-task learning: code}
 \vspace{0.5cm}
 \begin{lstlisting}[style=pythonstyle]
-backbone = Linear(10, 5)
-head1 = Linear(5, 1)
-head2 = Linear(5, 1)
+h = Linear(10, 5)
+g1 = Linear(5, 1)
+g2 = Linear(5, 1)
 
 for x, y1, y2 in dataloader:
-  features = backbone(x)
-  y_pred1 = head1(features)
-  y_pred2 = head2(features)
-  loss1 = loss_fn(y_pred1, y1)
-  loss2 = loss_fn(y_pred2, y2)
-  autojac.mtl_backward([loss1, loss2], features)
+  r = h(x)
+  z1 = g1(r)
+  z2 = g2(r)
+  l1 = loss_fn(z1, y1)
+  l2 = loss_fn(z2, y2)
+  autojac.mtl_backward([l1, l2], features=r)
   # backbone parameters now have a .jac field
   # and head parameters have a .grad field
   autojac.jac_to_grad(backbone.params(), UPGrad())
