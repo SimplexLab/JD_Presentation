@@ -298,13 +298,13 @@ Full code example available at \href{https://torchjd.org/latest/examples/iwrm/}{
 \end{frame}
 
 \begin{frame}{Per-sample JD: results}
-Batch size: 32
+
 \begin{tblr}{
   colspec = {lX[c,h]X[c,h]}
 }
 &Training Loss&Update Similarity\\
-% \makecell{SVHN\\\includegraphics[width=1.9cm]{images/svhn/example}}&\includegraphics[width=4.35cm]{images/svhn/train_losses_1.pdf}&\includegraphics[width=4.35cm]{images/svhn/similarities_1.pdf}\\
-\makecell{CIFAR-10\\\includegraphics[width=1.9cm]{images/cifar10/example}}&\includegraphics[width=4.32cm]{images/cifar10/train_losses_1.pdf}&\includegraphics[width=4.32cm]{images/cifar10/similarities_1.pdf}
+\makecell{CIFAR-10\\\includegraphics[width=1.9cm]{images/cifar10/example}}&\only<1-2>{\includegraphics[width=4.32cm]{images/cifar10/train_losses_minimal.pdf}}\only<3>{\includegraphics[width=4.32cm]{images/cifar10/train_losses_1.pdf}}\only<4>{\includegraphics[width=4.32cm]{images/cifar10/train_losses_2.pdf}}\only<5>{\includegraphics[width=4.32cm]{images/cifar10/train_losses_3.pdf}}&\only<1-2>{\includegraphics[width=4.32cm]{images/cifar10/similarities_minimal.pdf}}\only<3>{\includegraphics[width=4.32cm]{images/cifar10/similarities_1.pdf}}\only<4>{\includegraphics[width=4.32cm]{images/cifar10/similarities_2.pdf}}\only<5>{\includegraphics[width=4.32cm]{images/cifar10/similarities_3.pdf}}\\
+\uncover<2->{\makecell{SVHN\\\includegraphics[width=1.9cm]{images/svhn/example}}}&\uncover<2->{\only<2>{\includegraphics[width=4.35cm]{images/svhn/train_losses_minimal.pdf}}\only<3>{\includegraphics[width=4.35cm]{images/svhn/train_losses_1.pdf}}\only<4>{\includegraphics[width=4.35cm]{images/svhn/train_losses_2.pdf}}\only<5>{\includegraphics[width=4.35cm]{images/svhn/train_losses_3.pdf}}}&\uncover<2->{\only<2>{\includegraphics[width=4.32cm]{images/svhn/similarities_minimal.pdf}}\only<3>{\includegraphics[width=4.32cm]{images/svhn/similarities_1.pdf}}\only<4>{\includegraphics[width=4.32cm]{images/svhn/similarities_2.pdf}}\only<5>{\includegraphics[width=4.32cm]{images/svhn/similarities_3.pdf}}}
 \end{tblr}
 \end{frame}
 
