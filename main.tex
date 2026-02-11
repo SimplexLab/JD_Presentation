@@ -13,6 +13,7 @@
 \usepackage{pgfpages}
 \usepackage{listings}
 \usepackage{xcolor}
+\usepackage{appendixnumberbeamer}
 
 \lstdefinestyle{pythonstyle}{
     language=Python,
@@ -341,7 +342,12 @@ TorchJD to compute and aggregate Jacobians.
 Try to compute the inner products between your gradients.
 \end{frame}
 
+\appendix
 
+\begin{frame}
+\centering
+\Huge Appendix
+\end{frame}
 
 % \subsection{Future directions}
 % \begin{frame}{Future directions}
@@ -371,17 +377,17 @@ Try to compute the inner products between your gradients.
 % \end{itemize}
 % \end{frame}
 
-\begin{frame}{Bonus: Element-wise quadratic function trajectories}
+\begin{frame}{Element-wise quadratic function trajectories}
 Minimize $\vf : \begin{bmatrix}x \\ y\end{bmatrix} \mapsto \begin{bmatrix}x^2 \\ y^2\end{bmatrix}$. It's Jacobian at $\begin{bmatrix}x \\ y\end{bmatrix}$ is $\begin{bmatrix} 2x & 0 \\ 0 & 2y \end{bmatrix}$.
 \includegraphics[width=10.5cm]{images/EWQ_values.pdf}
 \end{frame}
 
-\begin{frame}{Bonus: Convex quadratic form trajectories}
+\begin{frame}{Convex quadratic form trajectories}
 Some convex quadratic function $\vf : \R^2 \to \R^2$, with conflicting gradients.
 \includegraphics[width=10.5cm]{images/CQF_values.pdf}
 \end{frame}
 
-\begin{frame}{Bonus: Gramian-based JD}
+\begin{frame}{Gramian-based JD}
   \uncover<1->{$\upgrad\big(\jac\vf(\vx)\big)$ is a linear combination of the rows of $\jac\vf(\vx)$.}
 
   \uncover<2->{The weights only depend on the (small) Gramian $\gram\vf(\vx) = \jac\vf(\vx) \cdot \jac\vf(\vx)^\T$.}
