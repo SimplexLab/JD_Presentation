@@ -194,6 +194,7 @@ The mapping $\A:\Rmn\to\Rn$ is called an {\bf aggregator}, it parameterizes {\bf
 
 \subsection{Unconflicting projection of gradients (UPGrad)}
 \begin{frame}{Unconflicting projection of gradients (UPGrad)}
+
 % Given $J\in\Rmn$\uncover<2->{, let ${\color{color1}C_J}$ be the cone $\{ \vy\in\Rn : \0\pleq J\vy \}$.
 % $\A$ is non-conflicting if for all $J\in\Rmn$, $\A(J)\in {\color{color1}C_J}$.}
 
@@ -211,6 +212,9 @@ The mapping $\A:\Rmn\to\Rn$ is called an {\bf aggregator}, it parameterizes {\bf
 \only<3>{\tikz[remember picture, overlay] \node[yshift=-0.5cm] at (current page.center) {\includegraphics[width=10cm]{images/dual_cone/gradients_cone_mean}};}
 \only<4>{\tikz[remember picture, overlay] \node[yshift=-0.5cm] at (current page.center) {\includegraphics[width=10cm]{images/dual_cone/gradients_cone_projections_mean}};}
 \only<5>{\tikz[remember picture, overlay] \node[yshift=-0.5cm] at (current page.center) {\includegraphics[width=10cm]{images/dual_cone/gradients_cone_projections_upgrad_mean}};}
+
+\vspace{-4.3cm}
+\hfill $J = \begin{bmatrix} g_1^\T \\ g_2^\T \end{bmatrix}$ \hspace{0.5cm}
 \end{frame}
 
 \begin{frame}{Formal definition of UPGrad}
