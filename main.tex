@@ -318,9 +318,9 @@ for x, y1, y2 in dataloader:
   l1 = loss_fn(z1, y1)
   l2 = loss_fn(z2, y2)
   autojac.mtl_backward([l1, l2], features=r)
+  # head parameters now have a .grad field
   # backbone parameters now have a .jac field
-  # and head parameters have a .grad field
-  autojac.jac_to_grad(backbone.params(), UPGrad())
+  autojac.jac_to_grad(h.parameters(), UPGrad())
   # All parameters now have a .grad field
   optimizer.step()
   optimizer.zero_grad()
