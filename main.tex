@@ -359,6 +359,20 @@ Try to compute the inner products between your gradients.
 \Huge Appendix
 \end{frame}
 
+\begin{frame}{Gramian-based JD}
+  \uncover<1->{$\upgrad\big(\jac\vf(\vx)\big)$ is a linear combination of the rows of $\jac\vf(\vx)$.}
+
+  \uncover<2->{The weights only depend on the (small) Gramian $\gram\vf(\vx) = \jac\vf(\vx) \cdot \jac\vf(\vx)^\T$.}
+
+  \uncover<3->{We can compute $\gram\vf(\vx)$ directly, extract the weights, combine the losses, and do a step of gradient descent.}
+
+  \uncover<4->{We have developed the \textbf{\texttt{autogram}} engine to compute $\gram\vf(\vx)$ efficiently (work in progress).}
+
+  \uncover<5->{This saves a lot of memory, so it's often much faster.}
+
+  \uncover<6->{Applicable to most other aggregators from the literature.}
+\end{frame}
+
 \begin{frame}{Other aggregators}
 \tikz[remember picture, overlay] \node[yshift=-0.5cm] at (current page.center) {\includegraphics[width=10cm]{images/dual_cone/gradients_cone_projections_upgrad}};
 
@@ -420,20 +434,6 @@ Minimize $\vf : \begin{bmatrix}x \\ y\end{bmatrix} \mapsto \begin{bmatrix}x^2 \\
 \begin{frame}{Convex quadratic form trajectories}
 Some convex quadratic function $\vf : \R^2 \to \R^2$, with conflicting gradients.
 \includegraphics[width=10.5cm]{images/CQF_values.pdf}
-\end{frame}
-
-\begin{frame}{Gramian-based JD}
-  \uncover<1->{$\upgrad\big(\jac\vf(\vx)\big)$ is a linear combination of the rows of $\jac\vf(\vx)$.}
-
-  \uncover<2->{The weights only depend on the (small) Gramian $\gram\vf(\vx) = \jac\vf(\vx) \cdot \jac\vf(\vx)^\T$.}
-
-  \uncover<3->{We can compute $\gram\vf(\vx)$ directly, extract the weights, combine the losses, and do a step of gradient descent.}
-
-  \uncover<4->{We have developed the \textbf{\texttt{autogram}} engine to compute $\gram\vf(\vx)$ efficiently (work in progress).}
-
-  \uncover<5->{This saves a lot of memory, so it's often much faster.}
-
-  \uncover<6->{Applicable to most other aggregators from the literature.}
 \end{frame}
 
 \end{document}
