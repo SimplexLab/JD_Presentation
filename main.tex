@@ -373,6 +373,17 @@ Try to compute the inner products between your gradients.
 \hfill $J = \begin{bmatrix} g_1^\T \\ g_2^\T \end{bmatrix}$ \hspace{0.5cm}
 \end{frame}
 
+\begin{frame}{Per-sample JD: test accuracies}
+
+\begin{tblr}{
+  colspec = {lX[c,h]}
+}
+&Test Accuracy\\
+\makecell{CIFAR-10\\\includegraphics[width=1.9cm]{images/cifar10/example}}&\only<1>{\includegraphics[width=4.32cm]{images/cifar10/test_accuracies_1.pdf}}\only<2>{\includegraphics[width=4.32cm]{images/cifar10/test_accuracies_2.pdf}}\only<3>{\includegraphics[width=4.32cm]{images/cifar10/test_accuracies_3.pdf}}\\
+\makecell{SVHN\\\includegraphics[width=1.9cm]{images/svhn/example}}&\only<1>{\includegraphics[width=4.35cm]{images/svhn/test_accuracies_1.pdf}}\only<2>{\includegraphics[width=4.35cm]{images/svhn/test_accuracies_2.pdf}}\only<3>{\includegraphics[width=4.35cm]{images/svhn/test_accuracies_3.pdf}}
+\end{tblr}
+\end{frame}
+
 % \subsection{Future directions}
 % \begin{frame}{Future directions}
 
