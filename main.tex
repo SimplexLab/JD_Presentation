@@ -252,6 +252,9 @@ Goal: Minimize some convex quadratic function $\vf : \R^2 \to \R^2$, with confli
 
 \begin{frame}[fragile]{Optimization trajectories: code}
 \begin{lstlisting}[style=pythonstyle]
+from torchjd import autojac
+from torchjd.aggregation import UPGrad
+
 x = tensor([0., 0.])  # initial value of x
 
 for i in range(n_iters):
@@ -274,6 +277,9 @@ Full project available at \href{https://github.com/TorchJD/trajectories}{github.
 Each element of the batch has its own loss.
 \begin{onlyenv}<2->
 \begin{lstlisting}[style=pythonstyle]
+from torchjd import autojac
+from torchjd.aggregation import UPGrad
+
 batch_size = 16
 model = Linear(10, 1)
 
@@ -311,20 +317,20 @@ Batch size: 32
 \begin{frame}[fragile]{Multi-task learning: code}
 \vspace{0.5cm}
 \begin{lstlisting}[style=pythonstyle]
-h = Linear(10, 5)
-g1 = Linear(5, 1)
-g2 = Linear(5, 1)
+from torchjd import autojac
+from torchjd.aggregation import UPGrad
 
+f = Linear(10, 5)
+h1 = Linear(5, 1)
+h2 = Linear(5, 1)
 for x, y1, y2 in dataloader:
-  r = h(x)
-  z1 = g1(r)
-  z2 = g2(r)
-  l1 = loss_fn(z1, y1)
-  l2 = loss_fn(z2, y2)
+  r = f(x)
+  z1, z2 = h1(r), h2(r)
+  l1, l2 = loss_fn(z1, y1), loss_fn(z2, y2)
   autojac.mtl_backward([l1, l2], features=r)
   # head parameters now have a .grad field
   # backbone parameters now have a .jac field
-  autojac.jac_to_grad(h.parameters(), UPGrad())
+  autojac.jac_to_grad(f.parameters(), UPGrad())
   # All parameters now have a .grad field
   optimizer.step()
   optimizer.zero_grad()
