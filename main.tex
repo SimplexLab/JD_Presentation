@@ -303,9 +303,25 @@ Full code example available at \href{https://torchjd.org/latest/examples/iwrm/}{
 \begin{tblr}{
   colspec = {lX[c,h]X[c,h]}
 }
-&Training Loss&Update Similarity\\
-\makecell{CIFAR-10\\\includegraphics[width=1.9cm]{images/cifar10/example}}&\only<1-2>{\includegraphics[width=4.32cm]{images/cifar10/train_losses_minimal.pdf}}\only<3>{\includegraphics[width=4.32cm]{images/cifar10/train_losses_1.pdf}}\only<4>{\includegraphics[width=4.32cm]{images/cifar10/train_losses_2.pdf}}\only<5>{\includegraphics[width=4.32cm]{images/cifar10/train_losses_3.pdf}}&\only<1-2>{\includegraphics[width=4.32cm]{images/cifar10/similarities_minimal.pdf}}\only<3>{\includegraphics[width=4.32cm]{images/cifar10/similarities_1.pdf}}\only<4>{\includegraphics[width=4.32cm]{images/cifar10/similarities_2.pdf}}\only<5>{\includegraphics[width=4.32cm]{images/cifar10/similarities_3.pdf}}\\
-\uncover<2->{\makecell{SVHN\\\includegraphics[width=1.9cm]{images/svhn/example}}}&\uncover<2->{\only<2>{\includegraphics[width=4.35cm]{images/svhn/train_losses_minimal.pdf}}\only<3>{\includegraphics[width=4.35cm]{images/svhn/train_losses_1.pdf}}\only<4>{\includegraphics[width=4.35cm]{images/svhn/train_losses_2.pdf}}\only<5>{\includegraphics[width=4.35cm]{images/svhn/train_losses_3.pdf}}}&\uncover<2->{\only<2>{\includegraphics[width=4.32cm]{images/svhn/similarities_minimal.pdf}}\only<3>{\includegraphics[width=4.32cm]{images/svhn/similarities_1.pdf}}\only<4>{\includegraphics[width=4.32cm]{images/svhn/similarities_2.pdf}}\only<5>{\includegraphics[width=4.32cm]{images/svhn/similarities_3.pdf}}}
+&\visible<2->{Training Loss}&\visible<3->{Update Similarity}\\
+\makecell{CIFAR-10\\\includegraphics[width=1.9cm]{images/cifar10/example}}&
+\only<2-4>{\includegraphics[width=4.32cm]{images/cifar10/train_losses_minimal.pdf}}%
+\only<5>{\includegraphics[width=4.32cm]{images/cifar10/train_losses_1.pdf}}%
+\only<6>{\includegraphics[width=4.32cm]{images/cifar10/train_losses_2.pdf}}%
+\only<7>{\includegraphics[width=4.32cm]{images/cifar10/train_losses_3.pdf}}&
+\only<3-4>{\includegraphics[width=4.32cm]{images/cifar10/similarities_minimal.pdf}}%
+\only<5>{\includegraphics[width=4.32cm]{images/cifar10/similarities_1.pdf}}%
+\only<6>{\includegraphics[width=4.32cm]{images/cifar10/similarities_2.pdf}}%
+\only<7>{\includegraphics[width=4.32cm]{images/cifar10/similarities_3.pdf}}\\
+\makecell{\visible<4->{SVHN}\\\visible<4->{\includegraphics[width=1.9cm]{images/svhn/example}}}&
+\only<4>{\includegraphics[width=4.35cm]{images/svhn/train_losses_minimal.pdf}}%
+\only<5>{\includegraphics[width=4.35cm]{images/svhn/train_losses_1.pdf}}%
+\only<6>{\includegraphics[width=4.35cm]{images/svhn/train_losses_2.pdf}}%
+\only<7>{\includegraphics[width=4.35cm]{images/svhn/train_losses_3.pdf}}&
+\only<4>{\includegraphics[width=4.32cm]{images/svhn/similarities_minimal.pdf}}%
+\only<5>{\includegraphics[width=4.32cm]{images/svhn/similarities_1.pdf}}%
+\only<6>{\includegraphics[width=4.32cm]{images/svhn/similarities_2.pdf}}%
+\only<7>{\includegraphics[width=4.32cm]{images/svhn/similarities_3.pdf}}
 \end{tblr}
 \end{frame}
 
