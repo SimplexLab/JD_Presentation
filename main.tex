@@ -380,13 +380,17 @@ Can JD solve problems that GD can't?
 
   \uncover<2->{The weights only depend on the (small) Gramian $\gram\vf(\vx) = \jac\vf(\vx) \cdot \jac\vf(\vx)^\T$.}
 
-  \uncover<3->{We can compute $\gram\vf(\vx)$ directly, extract the weights, combine the losses, and do a step of gradient descent.}
+  \uncover<3->{\centering\includegraphics[width=0.4\textwidth]{images/gramian.png}}
+\end{frame}
 
-  \uncover<4->{We have developed the \textbf{\texttt{autogram}} engine to compute $\gram\vf(\vx)$ efficiently (work in progress).}
+\begin{frame}{Gramian-based JD}
+  \uncover<1->{We can compute $\gram\vf(\vx)$ directly, extract the weights, combine the losses, and do a step of gradient descent.}
 
-  \uncover<5->{This saves a lot of memory, so it's often much faster.}
+  \uncover<2->{We have developed the \textbf{\texttt{autogram}} engine to compute $\gram\vf(\vx)$ efficiently (work in progress).}
 
-  \uncover<6->{Applicable to most other aggregators from the literature.}
+  \uncover<3->{This saves a lot of memory, so it's often much faster.}
+
+  \uncover<4->{Applicable to most other aggregators from the literature.}
 \end{frame}
 
 \begin{frame}{Other aggregators}
