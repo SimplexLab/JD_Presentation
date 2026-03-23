@@ -129,10 +129,10 @@ Library & Function & Description \\
 (*@\colorbox{green!15}{from torchjd.aggregation import UPGrad}@*)
 
 batch_size = 16
-model = Linear(10, 1)
+loss_fn = MSELoss((*@\colorbox{green!15}{reduction="none"}@*))
 
 for x, y in dataloader:
-  z = model(x).squeeze(dim=1)  # shape: [16]
+  z = model(x)  # shape: [16]
   losses = loss_fn(z, y)  # shape: [16]
   (*@\colorbox{green!15}{autojac.backward(losses)}@*)
   # parameters now have a .jac field
