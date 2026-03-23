@@ -86,7 +86,7 @@
 \end{frame}
 
 \section{Jacobian descent}
-\begin{frame}{Jacobian descent}
+\begin{frame}{Jacobian descent intuition}
 
 \only<1>{\tikz[remember picture, overlay] \node[yshift=-0.5cm] at (current page.center) {\includegraphics[width=12cm]{images/dual_cone/gradients}};}
 \only<2>{\tikz[remember picture, overlay] \node[yshift=-0.5cm] at (current page.center) {\includegraphics[width=12cm]{images/dual_cone/gradients_mean}};}
@@ -97,7 +97,52 @@
 \end{frame}
 
 \section{TorchJD}
-\begin{frame}{TorchJD}
+
+\begin{frame}{TorchJD: core functions}
+\begin{center}
+\begin{tblr}{
+  colspec={llll},
+  row{1}={font=\bfseries},
+  row{2}={bg=darkpurple!10},
+  row{3}={bg=darkpurple!10},
+  row{4}={bg=green!10},
+  row{5}={bg=green!10},
+  row{6}={bg=green!10},
+}
+\hline[1.5pt]
+Library & Function & Description \\
+\hline[0.8pt]
+\texttt{torch} & \texttt{autograd.grad} & compute gradients \\
+\texttt{torch} & \texttt{autograd.backward} & compute gradients and accumulate in \texttt{.grad} \\
+\texttt{torchjd} & \texttt{autojac.jac} & compute jacobians \\
+\texttt{torchjd} & \texttt{autojac.backward} & compute jacobians and accumulate in \texttt{.jac} \\
+\texttt{torchjd} & \texttt{autojac.jac\_to\_grad} & aggregate \texttt{.jac} fields into \texttt{.grad} \\
+\hline[0.8pt]
+\end{tblr}
+\end{center}
+\end{frame}
+
+\begin{frame}[fragile]{TorchJD: basic usage}
+\vspace{0.5cm}  
+\begin{lstlisting}[style=pythonstyle]
+from torchjd import autojac
+from torchjd.aggregation import UPGrad
+
+batch_size = 16
+model = Linear(10, 1)
+
+for x, y in dataloader:
+  z = model(x).squeeze(dim=1)  # shape: [16]
+  losses = loss_fn(z, y)  # shape: [16]
+  autojac.backward(losses)
+  # parameters now have a .jac field
+  autojac.jac_to_grad(model.parameters(), UPGrad())
+  # parameters now have a .grad field
+  optimizer.step()
+  optimizer.zero_grad()
+\end{lstlisting}
+
+More examples at \href{https://torchjd.org}{torchjd.org}.
 
 \end{frame}
 
