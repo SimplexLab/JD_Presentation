@@ -124,9 +124,9 @@ Library & Function & Description \\
 
 \begin{frame}[fragile]{TorchJD: basic usage}
 \vspace{0.5cm}  
-\begin{lstlisting}[style=pythonstyle]
-from torchjd import autojac
-from torchjd.aggregation import UPGrad
+\begin{lstlisting}[style=pythonstyle, escapeinside={(*@}{@*)}]
+(*@\colorbox{green!15}{from torchjd import autojac}@*)
+(*@\colorbox{green!15}{from torchjd.aggregation import UPGrad}@*)
 
 batch_size = 16
 model = Linear(10, 1)
@@ -134,9 +134,9 @@ model = Linear(10, 1)
 for x, y in dataloader:
   z = model(x).squeeze(dim=1)  # shape: [16]
   losses = loss_fn(z, y)  # shape: [16]
-  autojac.backward(losses)
+  (*@\colorbox{green!15}{autojac.backward(losses)}@*)
   # parameters now have a .jac field
-  autojac.jac_to_grad(model.parameters(), UPGrad())
+  (*@\colorbox{green!15}{autojac.jac\_to\_grad(model.parameters(), UPGrad())}@*)
   # parameters now have a .grad field
   optimizer.step()
   optimizer.zero_grad()
