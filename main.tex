@@ -138,19 +138,19 @@ Library & Function & Description \\
 
 \begin{frame}[fragile]{TorchJD: basic usage}
 \vspace{0.5cm}  
-\begin{lstlisting}[style=pythonstyle, escapeinside={(*@}{@*)}]
-(*@\colorbox{green!15}{from torchjd import autojac}@*)
-(*@\colorbox{green!15}{from torchjd.aggregation import UPGrad}@*)
+\begin{lstlisting}[style=pythonstyle, escapeinside={@*}{*@}]
+@*\colorbox{green!15}{from torchjd import autojac}*@
+@*\colorbox{green!15}{from torchjd.aggregation import UPGrad}*@
 
 batch_size = 16
-loss_fn = MSELoss((*@\colorbox{green!15}{reduction="none"}@*))  # do not average over the batch
+loss_fn = MSELoss(@*\colorbox{green!15}{reduction="none"}*@)  # do not average over the batch
 
 for x, y in dataloader:
   z = model(x)  # shape: [16]
   losses = loss_fn(z, y)  # shape: [16]
-  (*@\colorbox{green!15}{autojac.backward(losses)}@*)
+  @*\colorbox{green!15}{autojac.backward(losses)}*@
   # parameters now have a .jac field
-  (*@\colorbox{green!15}{autojac.jac\_to\_grad(model.parameters(), UPGrad())}@*)
+  @*\colorbox{green!15}{autojac.jac\_to\_grad(model.parameters(), UPGrad())}*@
   # parameters now have a .grad field
   optimizer.step()
   optimizer.zero_grad()
