@@ -143,7 +143,7 @@ Library & Function & Description \\
 (*@\colorbox{green!15}{from torchjd.aggregation import UPGrad}@*)
 
 batch_size = 16
-loss_fn = MSELoss((*@\colorbox{green!15}{reduction="none"}@*))
+loss_fn = MSELoss((*@\colorbox{green!15}{reduction="none"}@*))  # do not average over the batch
 
 for x, y in dataloader:
   z = model(x)  # shape: [16]
