@@ -128,9 +128,9 @@ Library & Function & Description \\
 \hline[0.8pt]
 \texttt{torch} & \texttt{autograd.grad} & compute gradients \\
 \texttt{torch} & \texttt{autograd.backward} & compute gradients and accumulate in \texttt{.grad} \\
-\texttt{torchjd} & \texttt{autojac.jac} & compute jacobians \\
-\texttt{torchjd} & \texttt{autojac.backward} & compute jacobians and accumulate in \texttt{.jac} \\
-\texttt{torchjd} & \texttt{autojac.jac\_to\_grad} & aggregate \texttt{.jac} fields into \texttt{.grad} \\
+\onslide<2->{\texttt{torchjd}} & \onslide<2->{\texttt{autojac.jac}} & \onslide<2->{compute jacobians} \\
+\onslide<3->{\texttt{torchjd}} & \onslide<3->{\texttt{autojac.backward}} & \onslide<3->{compute jacobians and accumulate in \texttt{.jac}} \\
+\onslide<4->{\texttt{torchjd}} & \onslide<4->{\texttt{autojac.jac\_to\_grad}} & \onslide<4->{aggregate \texttt{.jac} fields into \texttt{.grad}} \\
 \hline[0.8pt]
 \end{tblr}
 \end{center}
