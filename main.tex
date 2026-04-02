@@ -17,6 +17,7 @@
 
 \lstdefinestyle{pythonstyle}{
     language=Python,
+    deletekeywords=[2]{input},
     basicstyle=\ttfamily\footnotesize,
     keywordstyle=\color{blue}\bfseries,
     commentstyle=\color{green!50!black},
@@ -187,9 +188,9 @@ loss_fn = MSELoss(@*\colorbox{green!15}{reduction="none"}*@)  # do not average o
 batch_size = 16
 loss_fn = MSELoss(@*\colorbox{green!15}{reduction="none"}*@)  # do not average over the batch
 
-for x, y in dataloader:
-  z = model(x)  # shape: [16]
-  losses = loss_fn(z, y)  # shape: [16]
+for input, target in dataloader:
+  output = model(input)  # shape: [16]
+  losses = loss_fn(output, target)  # shape: [16]
 @*\\*@
 @*\\*@
 @*\\*@
@@ -208,9 +209,9 @@ for x, y in dataloader:
 batch_size = 16
 loss_fn = MSELoss(@*\colorbox{green!15}{reduction="none"}*@)  # do not average over the batch
 
-for x, y in dataloader:
-  z = model(x)  # shape: [16]
-  losses = loss_fn(z, y)  # shape: [16]
+for input, target in dataloader:
+  output = model(input)  # shape: [16]
+  losses = loss_fn(output, target)  # shape: [16]
   @*\colorbox{green!15}{autojac.backward(losses)}*@
   # parameters now have a .jac field
 @*\\*@
@@ -229,9 +230,9 @@ for x, y in dataloader:
 batch_size = 16
 loss_fn = MSELoss(@*\colorbox{green!15}{reduction="none"}*@)  # do not average over the batch
 
-for x, y in dataloader:
-  z = model(x)  # shape: [16]
-  losses = loss_fn(z, y)  # shape: [16]
+for input, target in dataloader:
+  output = model(input)  # shape: [16]
+  losses = loss_fn(output, target)  # shape: [16]
   @*\colorbox{green!15}{autojac.backward(losses)}*@
   # parameters now have a .jac field
   @*\colorbox{green!15}{autojac.jac\_to\_grad(model.parameters(), UPGrad())}*@
@@ -250,9 +251,9 @@ for x, y in dataloader:
 batch_size = 16
 loss_fn = MSELoss(@*\colorbox{green!15}{reduction="none"}*@)  # do not average over the batch
 
-for x, y in dataloader:
-  z = model(x)  # shape: [16]
-  losses = loss_fn(z, y)  # shape: [16]
+for input, target in dataloader:
+  output = model(input)  # shape: [16]
+  losses = loss_fn(output, target)  # shape: [16]
   @*\colorbox{green!15}{autojac.backward(losses)}*@
   # parameters now have a .jac field
   @*\colorbox{green!15}{autojac.jac\_to\_grad(model.parameters(), UPGrad())}*@
