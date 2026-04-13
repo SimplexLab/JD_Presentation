@@ -1,4 +1,4 @@
-\documentclass{beamer}
+\documentclass[aspectratio=169]{beamer}
 
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -17,6 +17,7 @@
 
 \lstdefinestyle{pythonstyle}{
     language=Python,
+    deletekeywords=[2]{input},
     basicstyle=\ttfamily\footnotesize,
     keywordstyle=\color{blue}\bfseries,
     commentstyle=\color{green!50!black},
@@ -28,16 +29,20 @@
     framexleftmargin=0.5em
 }
 
+\definecolor{darkpurple}{RGB}{142,20,242}
 \hypersetup{colorlinks,linkcolor=,urlcolor=blue}
 \usecolortheme{beaver}
-\setbeamercolor{itemize item}{fg=red}
-\setbeamercolor{itemize subitem}{fg=red}
+\setbeamercolor{frametitle}{fg=white,bg=darkpurple}
+\setbeamercolor{title}{fg=white,bg=darkpurple}
+\setbeamercolor{structure}{fg=darkpurple}
+\setbeamercolor{itemize item}{fg=darkpurple}
+\setbeamercolor{itemize subitem}{fg=darkpurple}
 \setbeamercovered{invisible}
 \setlength{\parskip}{3.5ex}
-\setbeamertemplate{footline}[frame number]
+\setbeamertemplate{footline}{}
 \beamertemplatenavigationsymbolsempty
 
-\title{Jacobian Descent For Multi-Objective Optimization}
+\title{TorchJD: Jacobian Descent in PyTorch}
 
 \author{%
   \hspace{0.35cm}Val\'erian Rey --- \texorpdfstring{\texttt{valerian.rey@gmail.com}}{valerian.rey@gmail.com}\texorpdfstring{\\}{ - }%
@@ -52,7 +57,7 @@
   % Left: GitHub
   \node[anchor=south west, inner sep=0pt] at ([xshift=0.5cm, yshift=0.5cm]current page.south west) {
     \begin{minipage}{4cm}
-      \raggedright
+      \centering
       \includegraphics[width=1.4cm]{images/logos/github}\\
       \href{https://github.com/TorchJD/torchjd}{\small github.com/TorchJD/torchjd}
     \end{minipage}
@@ -68,7 +73,7 @@
   % Right: ArXiv
   \node[anchor=south east, inner sep=0pt] at ([xshift=-0.5cm, yshift=0.5cm]current page.south east) {
     \begin{minipage}{4cm}
-      \raggedleft
+      \centering
       \includegraphics[width=1.4cm]{images/logos/arxiv}\\
       \href{https://arxiv.org/pdf/2406.16232}{\small arxiv.org/pdf/2406.16232}
     \end{minipage}
@@ -76,19 +81,11 @@
 }
 \end{frame}
 
-\begin{frame}[plain, noframenumbering]
-\frametitle{Table of contents}
-{\setlength{\parskip}{0pt}
-\setbeamertemplate{section in toc}{~\textbf{\inserttocsection}}
-\setbeamertemplate{subsection in toc}{\hspace{0.4cm}~\inserttocsubsection\par}
-\tableofcontents}
-\end{frame}
-
-\section{Theory}
-
-\begin{frame}
-\centering
-\Huge Theory
+\section{Motivation}
+\begin{frame}[plain]
+  \begin{center}
+    {\usebeamercolor[fg]{structure}\Large\textbf{Motivation}}
+  \end{center}
 \end{frame}
 
 \subsection{Partial order}
@@ -147,8 +144,6 @@ For a small enough update $\vy\in\Rn$, Taylor's theorem states
 \vf(\vx+\vy)\approx\vf(\vx)+ \jac \vf(\vx)\cdot \vy \visible<4->{\textcolor{gray}{{}\preceq \vf(\vx)}}
 \end{align*}
 
-% \pause
-% We want $\vf(\vx + \vy) \preceq \vf(\vx)$.
 \pause
 \pause
 We select $\vy=-\eta\A\big(\jac \vf(\vx)\big)\in\Rn$.
@@ -172,75 +167,190 @@ The mapping $\A:\Rmn\to\Rn$ is called an {\bf aggregator}, it parameterizes {\bf
 \end{algorithm}}
 \end{frame}
 
-% \subsection{Non-conflicting property}
-% \begin{frame}[t]{Non-conflicting property}
-% \vspace{0.5cm}
-% Recall:
-% \begin{align}
-% \vf(\vx+\vy) &\approx \vf(\vx)+\jac\vf(\vx)\cdot\vy\\
-% \vy &= -\eta \A (\jac \vf(\vx))
-% \end{align}
-% \only<1-2>{\uncover<2->{We would want}}\only<3->{Or approximately}
-% \begin{align*}
-% \only<1-2>{\uncover<2->{\vf(\vx+\vy)\pleq \vf(\vx)}}
-% \only<3->{
-% &&&\vf(\vx)+\jac\vf(\vx)\cdot\vy\pleq \vf(\vx)\\
-% \uncover<4->{\Leftrightarrow&&&-\eta \jac\vf(\vx)\cdot\A(\jac \vf(\vx))\pleq \0}\\
-% \uncover<5->{\Leftrightarrow&&&\0\pleq \jac\vf(\vx)\cdot\A(\jac \vf(\vx))}}
-% \end{align*}
+\begin{frame}{Jacobian descent}
 
-% \only<6->{$\A$ is {\bf non-conflicting} if for all $J\in\Rmn$, $\0\pleq J\cdot\A(J)$.}
-% \end{frame}
+\only<1>{\tikz[remember picture, overlay] \node[yshift=-0.5cm] at (current page.center) {\includegraphics[width=12cm]{images/dual_cone/only_one_gradients}};}
+\only<2>{\tikz[remember picture, overlay] \node[yshift=-0.5cm] at (current page.center) {\includegraphics[width=12cm]{images/dual_cone/gradients}};}
+\only<3>{\tikz[remember picture, overlay] \node[yshift=-0.5cm] at (current page.center) {\includegraphics[width=12cm]{images/dual_cone/gradients_mean}};}
+\only<4>{\tikz[remember picture, overlay] \node[yshift=-0.5cm] at (current page.center) {\includegraphics[width=12cm]{images/dual_cone/gradients_cone_mean}};}
+\only<5>{\tikz[remember picture, overlay] \node[yshift=-0.5cm] at (current page.center) {\includegraphics[width=12cm]{images/dual_cone/gradients_cone_projections_mean}};}
+\only<6>{\tikz[remember picture, overlay] \node[yshift=-0.5cm] at (current page.center) {\includegraphics[width=12cm]{images/dual_cone/gradients_cone_projections_upgrad_mean}};}
 
-\subsection{Unconflicting projection of gradients (UPGrad)}
-\begin{frame}{Unconflicting projection of gradients (UPGrad)}
-
-% Given $J\in\Rmn$\uncover<2->{, let ${\color{color1}C_J}$ be the cone $\{ \vy\in\Rn : \0\pleq J\vy \}$.
-% $\A$ is non-conflicting if for all $J\in\Rmn$, $\A(J)\in {\color{color1}C_J}$.}
-
-% \uncover<3->{For any $\vx\in\Rn$, the projection of $\vx$ onto ${\color{color1}C_J}$ is
-% \begin{flalign*}
-% \proj_J(\vx)=\argmin_{\vy\in {\color{color1}C_J}}\| \vx-\vy\|^2&&
-% \end{flalign*}}
-% \uncover<4->{
-% \begin{flalign*}
-% \upgrad(J)=\frac{1}{m}\sum_{i\in\range{m}} \proj_J\left(J^\T \ve_i\right)&&
-% \end{flalign*}}
-
-\only<1>{\tikz[remember picture, overlay] \node[yshift=-0.5cm] at (current page.center) {\includegraphics[width=10cm]{images/dual_cone/gradients}};}
-\only<2>{\tikz[remember picture, overlay] \node[yshift=-0.5cm] at (current page.center) {\includegraphics[width=10cm]{images/dual_cone/gradients_mean}};}
-\only<3>{\tikz[remember picture, overlay] \node[yshift=-0.5cm] at (current page.center) {\includegraphics[width=10cm]{images/dual_cone/gradients_cone_mean}};}
-\only<4>{\tikz[remember picture, overlay] \node[yshift=-0.5cm] at (current page.center) {\includegraphics[width=10cm]{images/dual_cone/gradients_cone_projections_mean}};}
-\only<5>{\tikz[remember picture, overlay] \node[yshift=-0.5cm] at (current page.center) {\includegraphics[width=10cm]{images/dual_cone/gradients_cone_projections_upgrad_mean}};}
-
-\vspace{-4.3cm}
-\hfill $J = \begin{bmatrix} g_1^\T \\ g_2^\T \end{bmatrix}$ \hspace{0.5cm}
 \end{frame}
 
+\subsection{Unconflicting projection of gradients (UPGrad)}
 \begin{frame}{Formal definition of UPGrad}
+\begin{columns}[T]
+\column{0.5\textwidth}
 Given $J\in\Rmn$, let ${\color{color1}C_J}$ be the cone $\{ \vy\in\Rn : \0\pleq J\vy \}$.
-% $\A$ is non-conflicting if for all $J\in\Rmn$, $\A(J)\in {\color{color1}C_J}$.
 
-% For any $\vx\in\Rn$, the projection of $\vx$ onto ${\color{color1}C_J}$ is
 \begin{flalign*}
 \textcolor{darkgray}{\proj_J(\vx)}=\argmin_{\vy\in {\color{color1}C_J}}\| \vx-\vy\|^2&&
 \end{flalign*}
 \begin{flalign*}
 \textcolor{blue!60!black}{\upgrad(J)}=\frac{1}{m}\sum_{i\in\range{m}} \textcolor{darkgray}{\proj_J\left(\vg_i\right)}&&
 \end{flalign*}
-\tikz[remember picture, overlay] \node[anchor=south east, yshift=0.5cm] at (current page.south east) {\includegraphics[width=6cm]{images/dual_cone/gradients_cone_projections_upgrad_mean}};
+\column{0.5\textwidth}
+\vspace{0.3cm}
+\includegraphics[width=\textwidth]{images/dual_cone/gradients_cone_projections_upgrad_mean}
+\end{columns}
 \end{frame}
 
-% \subsection{Other aggregators}
-% \begin{frame}{Other aggregators}
-% \includegraphics[width=12cm]{images/directions}
-% \end{frame}
+\section{TorchJD}
+\begin{frame}[plain]
+  \begin{center}
+    {\usebeamercolor[fg]{structure}\Large\textbf{TorchJD}}
+  \end{center}
+\end{frame}
 
-\section{Applications and experimentation}
+\begin{frame}{TorchJD: core functions}
+\begin{center}
+\begin{tblr}{
+  colspec={llll},
+  row{1}={font=\bfseries},
+  row{2}={bg=darkpurple!10},
+  row{3}={bg=darkpurple!10},
+  row{4}={bg=green!10},
+  row{5}={bg=green!10},
+  row{6}={bg=green!10},
+}
+\hline[1.5pt]
+Library & Function & Description \\
+\hline[0.8pt]
+\texttt{torch} & \texttt{autograd.grad} & compute gradients \\
+\texttt{torch} & \texttt{autograd.backward} & compute gradients and accumulate in \texttt{.grad} \\
+\onslide<2->{\texttt{torchjd}} & \onslide<2->{\texttt{autojac.jac}} & \onslide<2->{compute jacobians} \\
+\onslide<3->{\texttt{torchjd}} & \onslide<3->{\texttt{autojac.backward}} & \onslide<3->{compute jacobians and accumulate in \texttt{.jac}} \\
+\onslide<4->{\texttt{torchjd}} & \onslide<4->{\texttt{autojac.jac\_to\_grad}} & \onslide<4->{aggregate \texttt{.jac} fields into \texttt{.grad}} \\
+\hline[0.8pt]
+\end{tblr}
+\end{center}
+\end{frame}
 
-\begin{frame}
-\centering
-\Huge Applications and experimentation
+\begin{frame}[fragile]{TorchJD: basic usage}
+\vspace{0.2cm}
+\begin{lstlisting}[style=pythonstyle, escapeinside={@*}{*@}]
+@*\colorbox{green!15}{from torchjd import autojac}*@
+@*\colorbox{green!15}{from torchjd.aggregation import UPGrad}*@
+@*\\*@
+@*\\*@
+@*\\*@
+@*\\*@
+@*\\*@
+@*\\*@
+@*\\*@
+@*\\*@
+@*\\*@
+@*\\*@
+@*\\*@
+@*\\*@
+@*\\*@
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{TorchJD: basic usage}
+\vspace{0.25cm}
+\begin{lstlisting}[style=pythonstyle, escapeinside={@*}{*@}]
+@*\colorbox{green!15}{from torchjd import autojac}*@
+@*\colorbox{green!15}{from torchjd.aggregation import UPGrad}*@
+
+batch_size = 16
+loss_fn = MSELoss(@*\colorbox{green!15}{reduction="none"}*@)  # do not average over the batch
+@*\\*@
+@*\\*@
+@*\\*@
+@*\\*@
+@*\\*@
+@*\\*@
+@*\\*@
+@*\\*@
+@*\\*@
+@*\\*@
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{TorchJD: basic usage}
+\vspace{0.26cm}
+\begin{lstlisting}[style=pythonstyle, escapeinside={@*}{*@}]
+@*\colorbox{green!15}{from torchjd import autojac}*@
+@*\colorbox{green!15}{from torchjd.aggregation import UPGrad}*@
+
+batch_size = 16
+loss_fn = MSELoss(@*\colorbox{green!15}{reduction="none"}*@)  # do not average over the batch
+
+for input, target in dataloader:
+  output = model(input)  # shape: [16]
+  losses = loss_fn(output, target)  # shape: [16]
+@*\\*@
+@*\\*@
+@*\\*@
+@*\\*@
+@*\\*@
+@*\\*@
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{TorchJD: basic usage}
+\vspace{0.38cm}
+\begin{lstlisting}[style=pythonstyle, escapeinside={@*}{*@}]
+@*\colorbox{green!15}{from torchjd import autojac}*@
+@*\colorbox{green!15}{from torchjd.aggregation import UPGrad}*@
+
+batch_size = 16
+loss_fn = MSELoss(@*\colorbox{green!15}{reduction="none"}*@)  # do not average over the batch
+
+for input, target in dataloader:
+  output = model(input)  # shape: [16]
+  losses = loss_fn(output, target)  # shape: [16]
+  @*\colorbox{green!15}{autojac.backward(losses)}*@
+  # parameters now have a .jac field
+@*\\*@
+@*\\*@
+@*\\*@
+@*\\*@
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{TorchJD: basic usage}
+\vspace{0.5cm}
+\begin{lstlisting}[style=pythonstyle, escapeinside={@*}{*@}]
+@*\colorbox{green!15}{from torchjd import autojac}*@
+@*\colorbox{green!15}{from torchjd.aggregation import UPGrad}*@
+
+batch_size = 16
+loss_fn = MSELoss(@*\colorbox{green!15}{reduction="none"}*@)  # do not average over the batch
+
+for input, target in dataloader:
+  output = model(input)  # shape: [16]
+  losses = loss_fn(output, target)  # shape: [16]
+  @*\colorbox{green!15}{autojac.backward(losses)}*@
+  # parameters now have a .jac field
+  @*\colorbox{green!15}{autojac.jac\_to\_grad(model.parameters(), UPGrad())}*@
+  # parameters now have a .grad field
+@*\\*@
+@*\\*@
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{TorchJD: basic usage}
+\vspace{0.5cm}
+\begin{lstlisting}[style=pythonstyle, escapeinside={@*}{*@}]
+@*\colorbox{green!15}{from torchjd import autojac}*@
+@*\colorbox{green!15}{from torchjd.aggregation import UPGrad}*@
+
+batch_size = 16
+loss_fn = MSELoss(@*\colorbox{green!15}{reduction="none"}*@)  # do not average over the batch
+
+for input, target in dataloader:
+  output = model(input)  # shape: [16]
+  losses = loss_fn(output, target)  # shape: [16]
+  @*\colorbox{green!15}{autojac.backward(losses)}*@
+  # parameters now have a .jac field
+  @*\colorbox{green!15}{autojac.jac\_to\_grad(model.parameters(), UPGrad())}*@
+  # parameters now have a .grad field
+  optimizer.step()
+  optimizer.zero_grad()
+\end{lstlisting}
 \end{frame}
 
 \subsection{Optimization trajectories}
@@ -250,210 +360,11 @@ Goal: Minimize some convex quadratic function $\vf : \R^2 \to \R^2$, with confli
 \includegraphics[width=10.5cm]{images/CQF_values_simplified.pdf}
 \end{frame}
 
-\begin{frame}[fragile]{Optimization trajectories: code}
-\begin{lstlisting}[style=pythonstyle]
-from torchjd import autojac
-from torchjd.aggregation import UPGrad
-
-x = tensor([0., 0.], requires_grad=True)
-
-for i in range(n_iters):
-  y = f(x)  # shape: [2]
-  autojac.backward(y)
-  # x now has a .jac field
-  autojac.jac_to_grad([x], UPGrad())
-  # x now has a .grad field
-  optimizer.step()
-  optimizer.zero_grad()
-
-\end{lstlisting}
-
-Full project available at \href{https://github.com/TorchJD/trajectories}{github.com/TorchJD/trajectories}
-\end{frame}
-
-\subsection{Per-sample JD}
-\begin{frame}[fragile]{Per-sample JD}
-
-Each element of the batch has its own loss.
-\begin{onlyenv}<2->
-\begin{lstlisting}[style=pythonstyle]
-from torchjd import autojac
-from torchjd.aggregation import UPGrad
-
-batch_size = 16
-model = Linear(10, 1)
-
-for x, y in dataloader:
-  z = model(x).squeeze(dim=1)  # shape: [16]
-  losses = loss_fn(z, y)  # shape: [16]
-  autojac.backward(losses)
-  # parameters now have a .jac field
-  autojac.jac_to_grad(model.parameters(), UPGrad())
-  # parameters now have a .grad field
-  optimizer.step()
-  optimizer.zero_grad()
-\end{lstlisting}
-Full code example available at \href{https://torchjd.org/latest/examples/iwrm/}{torchjd.org/latest/examples/iwrm}.
-\end{onlyenv}
-\end{frame}
-
-\begin{frame}{Per-sample JD: results}
-
-\begin{tblr}{
-  colspec = {lX[c,h]X[c,h]}
-}
-&\visible<2->{Training Loss}&\visible<3->{Update Similarity}\\
-\makecell{CIFAR-10\\\includegraphics[width=1.9cm]{images/cifar10/example}}&
-\only<2-4>{\includegraphics[width=4.32cm]{images/cifar10/train_losses_minimal.pdf}}%
-\only<5>{\includegraphics[width=4.32cm]{images/cifar10/train_losses_1.pdf}}%
-\only<6>{\includegraphics[width=4.32cm]{images/cifar10/train_losses_2.pdf}}%
-\only<7>{\includegraphics[width=4.32cm]{images/cifar10/train_losses_3.pdf}}&
-\only<3-4>{\includegraphics[width=4.32cm]{images/cifar10/similarities_minimal.pdf}}%
-\only<5>{\includegraphics[width=4.32cm]{images/cifar10/similarities_1.pdf}}%
-\only<6>{\includegraphics[width=4.32cm]{images/cifar10/similarities_2.pdf}}%
-\only<7>{\includegraphics[width=4.32cm]{images/cifar10/similarities_3.pdf}}\\
-\makecell{\visible<4->{SVHN}\\\visible<4->{\includegraphics[width=1.9cm]{images/svhn/example}}}&
-\only<4>{\includegraphics[width=4.35cm]{images/svhn/train_losses_minimal.pdf}}%
-\only<5>{\includegraphics[width=4.35cm]{images/svhn/train_losses_1.pdf}}%
-\only<6>{\includegraphics[width=4.35cm]{images/svhn/train_losses_2.pdf}}%
-\only<7>{\includegraphics[width=4.35cm]{images/svhn/train_losses_3.pdf}}&
-\only<4>{\includegraphics[width=4.35cm]{images/svhn/similarities_minimal.pdf}}%
-\only<5>{\includegraphics[width=4.35cm]{images/svhn/similarities_1.pdf}}%
-\only<6>{\includegraphics[width=4.35cm]{images/svhn/similarities_2.pdf}}%
-\only<7>{\includegraphics[width=4.35cm]{images/svhn/similarities_3.pdf}}
-\end{tblr}
-\end{frame}
-
-\subsection{Multi-task learning}
-\begin{frame}{Multi-task learning}
-\centering
-\input{tikz/MTL}
-\end{frame}
-
-\begin{frame}[fragile]{Multi-task learning: code}
-\vspace{0.5cm}
-\begin{lstlisting}[style=pythonstyle]
-from torchjd import autojac
-from torchjd.aggregation import UPGrad
-
-f = Linear(10, 5)
-h1 = Linear(5, 1)
-h2 = Linear(5, 1)
-for x, y1, y2 in dataloader:
-  r = f(x)
-  z1, z2 = h1(r), h2(r)
-  l1, l2 = loss_fn(z1, y1), loss_fn(z2, y2)
-  autojac.mtl_backward([l1, l2], features=r)
-  # head parameters now have a .grad field
-  # backbone parameters now have a .jac field
-  autojac.jac_to_grad(f.parameters(), UPGrad())
-  # All parameters now have a .grad field
-  optimizer.step()
-  optimizer.zero_grad()
-\end{lstlisting}
-Full code example available at \href{https://torchjd.org/latest/examples/mtl/}{torchjd.org/latest/examples/mtl}.
-\end{frame}
-
-\section{Conclusion}
-\begin{frame}{Conclusion}
-Many problems are multi-objective.
-\pause
-
-TorchJD to compute and aggregate Jacobians.
-\pause
-
-Try to compute the inner products between your gradients.
-\pause
-
-Can JD solve problems that GD can't?
-\end{frame}
-
-\appendix
-
-\begin{frame}
-\centering
-\Huge Appendix
-\end{frame}
-
-\begin{frame}{Gramian-based JD}
-  \uncover<1->{$\upgrad\big(\jac\vf(\vx)\big)$ is a linear combination of the rows of $\jac\vf(\vx)$.}
-
-  \uncover<2->{The weights only depend on the (small) Gramian $\gram\vf(\vx) = \jac\vf(\vx) \cdot \jac\vf(\vx)^\T$.}
-
-  \uncover<3->{\centering\includegraphics[width=0.4\textwidth]{images/gramian.png}}
-\end{frame}
-
-\begin{frame}{Gramian-based JD}
-  \uncover<1->{We can compute $\gram\vf(\vx)$ directly, extract the weights, combine the losses, and do a step of gradient descent.}
-
-  \uncover<2->{We have developed the \textbf{\texttt{autogram}} engine to compute $\gram\vf(\vx)$ efficiently (work in progress).}
-
-  \uncover<3->{This saves a lot of memory, so it's often much faster.}
-
-  \uncover<4->{Applicable to most other aggregators from the literature.}
-\end{frame}
-
-\begin{frame}{Other aggregators}
-\tikz[remember picture, overlay] \node[yshift=-0.5cm] at (current page.center) {\includegraphics[width=10cm]{images/dual_cone/gradients_cone_projections_upgrad}};
-
-\vspace{-4.3cm}
-\hfill $J = \begin{bmatrix} g_1^\T \\ g_2^\T \end{bmatrix}$ \hspace{0.5cm}
-\end{frame}
-
-\begin{frame}{Other aggregators}
-\tikz[remember picture, overlay] \node[yshift=-0.5cm] at (current page.center) {\includegraphics[width=10cm]{images/dual_cone/gradients_cone_mean_dual_proj_mgda}};
-
-\vspace{-4.3cm}
-\hfill $J = \begin{bmatrix} g_1^\T \\ g_2^\T \end{bmatrix}$ \hspace{0.5cm}
-\end{frame}
-
-\begin{frame}{Per-sample JD: test accuracies}
-
-\begin{tblr}{
-  colspec = {lX[c,h]}
-}
-&Test Accuracy\\
-\makecell{CIFAR-10\\\includegraphics[width=1.9cm]{images/cifar10/example}}&\only<1>{\includegraphics[width=4.32cm]{images/cifar10/test_accuracies_1.pdf}}\only<2>{\includegraphics[width=4.32cm]{images/cifar10/test_accuracies_2.pdf}}\only<3>{\includegraphics[width=4.32cm]{images/cifar10/test_accuracies_3.pdf}}\\
-\makecell{SVHN\\\includegraphics[width=1.9cm]{images/svhn/example}}&\only<1>{\includegraphics[width=4.35cm]{images/svhn/test_accuracies_1.pdf}}\only<2>{\includegraphics[width=4.35cm]{images/svhn/test_accuracies_2.pdf}}\only<3>{\includegraphics[width=4.35cm]{images/svhn/test_accuracies_3.pdf}}
-\end{tblr}
-\end{frame}
-
-% \subsection{Future directions}
-% \begin{frame}{Future directions}
-
-% \uncover<2->{{\bf Implementation}}
-
-% \begin{itemize}
-%   \item<2-> Make the \textbf{\texttt{autogram}} engine faster.
-%   % Improve autogram engine.
-%   % If possible, use Sparse Latticed Tensors.
-%   \item<3-> Make a better implementation of $\upgrad$.
-%   % Make it more precise. Make it work on CUDA directly.
-%   % Make blazing fast even with 64 or 128 losses.
-%   \item<4-> Improve the interface of TorchJD.
-%   % Add torchjd.autojac.jac
-%   % Add torchjd.autogram.gram
-%   % Add torchjd.autogram.backward
-% \end{itemize}
-
-% \uncover<5->{{\bf Applications}}
-
-% \begin{itemize}
-%   \item<5-> Are there multi-task learning problems with actual conflict?
-%   \item<6-> Could JD (per-sample) help training diffusion models?
-%   \item<7-> Could JD (per-depth) help training recurrent models?
-%   \item<8-> Find new applications.
-% \end{itemize}
-% \end{frame}
-
-\begin{frame}{Element-wise quadratic function trajectories}
-Minimize $\vf : \begin{bmatrix}x \\ y\end{bmatrix} \mapsto \begin{bmatrix}x^2 \\ y^2\end{bmatrix}$. It's Jacobian at $\begin{bmatrix}x \\ y\end{bmatrix}$ is $\begin{bmatrix} 2x & 0 \\ 0 & 2y \end{bmatrix}$.
-\includegraphics[width=10.5cm]{images/EWQ_values.pdf}
-\end{frame}
-
-\begin{frame}{Convex quadratic form trajectories}
-Some convex quadratic function $\vf : \R^2 \to \R^2$, with conflicting gradients.
-\includegraphics[width=10.5cm]{images/CQF_values.pdf}
+\section{Discussion}
+\begin{frame}[plain]
+  \begin{center}
+    {\usebeamercolor[fg]{structure}\Large\textbf{Discussion}}
+  \end{center}
 \end{frame}
 
 \end{document}
