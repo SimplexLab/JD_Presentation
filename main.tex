@@ -185,10 +185,10 @@ The mapping $\A:\Rmn\to\Rn$ is called an {\bf aggregator}, it parameterizes {\bf
 Given $J\in\Rmn$, let ${\color{color1}C_J}$ be the cone $\{ \vy\in\Rn : \0\pleq J\vy \}$.
 
 \begin{flalign*}
-\textcolor{darkgray}{\proj_J(\vx)}=\argmin_{\vy\in {\color{color1}C_J}}\| \vx-\vy\|^2&&
+\textcolor{darkgray}{p_i}=\argmin_{\vy\in {\color{color1}C_J}}\| \nabla f_i-\vy\|^2&&
 \end{flalign*}
 \begin{flalign*}
-\textcolor{blue!60!black}{\upgrad(J)}=\frac{1}{m}\sum_{i\in\range{m}} \textcolor{darkgray}{\proj_J\left(\vg_i\right)}&&
+\textcolor{darkpurple}{\upgrad(J)}=\frac{1}{m}\sum_{i\in\range{m}} \textcolor{darkgray}{p_i}&&
 \end{flalign*}
 \column{0.5\textwidth}
 \vspace{0.3cm}
